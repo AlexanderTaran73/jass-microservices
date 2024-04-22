@@ -1,0 +1,26 @@
+server:
+  port: 0
+
+
+spring:
+  application:
+    name: email-service
+
+  mail:
+    host: smtp.gmail.com
+    username: jass.tm.dev@gmail.com
+    password: sxrxbwriobadnapq
+    #7Tnx6|iVJ8?fk9
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+      allow-circular-redirects: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
