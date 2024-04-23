@@ -1,6 +1,6 @@
-package com.jass.authservice.repository
+package com.jass.userservice.repository
 
-import com.jass.authservice.model.User
+import com.jass.userservice.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

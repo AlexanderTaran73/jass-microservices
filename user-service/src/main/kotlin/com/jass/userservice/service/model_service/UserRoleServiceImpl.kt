@@ -1,7 +1,7 @@
-package com.jass.authservice.service.model_service
+package com.jass.userservice.service.model_service
 
-import com.jass.authservice.model.UserRole
-import com.jass.authservice.repository.UserRoleRepository
+import com.jass.userservice.model.UserRole
+import com.jass.userservice.repository.UserRoleRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 

@@ -2,15 +2,13 @@ package com.jass.authservice.service.controller_service
 
 import com.jass.authservice.config.jwt.JwtProvider
 import com.jass.authservice.dto.AuthResponse
+import com.jass.authservice.dto.CreateUserRequest
 import com.jass.authservice.dto.RegistrationRequest
 import com.jass.authservice.feign.EmailService
+import com.jass.authservice.feign.UserService
 import com.jass.authservice.model.RegistrationData
-import com.jass.authservice.model.User
-import com.jass.authservice.model.UserRole
 import com.jass.authservice.service.model_service.RegistrationDataService
 import com.jass.authservice.service.model_service.RegistrationDataServiceImpl
-import com.jass.authservice.service.model_service.UserRoleService
-import com.jass.authservice.service.model_service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -24,10 +22,9 @@ import kotlin.random.Random
 class RegistrationService(
     private val registrationDataService: RegistrationDataService,
     private val passwordEncoder: PasswordEncoder,
-    private val userService: UserService,
-    private val userRoleService: UserRoleService,
     private val jwtProvider: JwtProvider,
-    private val emailService: EmailService
+    private val emailService: EmailService,
+    private val userService: UserService
     ) {
 
 
@@ -35,7 +32,8 @@ class RegistrationService(
     fun registration(registrationRequest: RegistrationRequest): ResponseEntity<Any> {
 
 //        Is email already registered
-        if (userService.findByEmail(registrationRequest.email) != null) return ResponseEntity(HttpStatus.NOT_FOUND)
+        val users = userService.getUsersShort(listOf(registrationRequest.email)).body
+        if (users!!.size > 0 && users[0] != null) return ResponseEntity(HttpStatus.NOT_FOUND)
 
         val registrationData = registrationDataService.findByEmail(registrationRequest.email) ?: RegistrationData()
         registrationData.also {
@@ -58,21 +56,14 @@ class RegistrationService(
         val registrationData = registrationDataService.findByEmail(email) ?: return ResponseEntity.notFound().build()
         if (registrationData.registration_token == token) {
 
-            val user = User().also {
-                it.email = registrationData.email
-                it.password = registrationData.password
-
-                val userRole = userRoleService.findById(0)!!
-                it.roles.add(userRole)
-            }
-
+            val shortUser = userService.createUser(CreateUserRequest(registrationData.email, registrationData.password)).body
+            if (shortUser == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
             registrationDataService.delete(registrationData)
-            userService.save(user)
 
             return ResponseEntity(
                 AuthResponse(
-                    jwtProvider.generateAccessToken(user.email, user.roles.map { it.name }),
-                    jwtProvider.generateRefreshToken(user.email)
+                    jwtProvider.generateAccessToken(shortUser.email, shortUser.roles.map { it.name }),
+                    jwtProvider.generateRefreshToken(shortUser.email)
                 ), HttpStatus.CREATED)
         }
         else {

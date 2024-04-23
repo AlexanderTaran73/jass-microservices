@@ -1,6 +1,6 @@
-package com.jass.authservice.repository
+package com.jass.userservice.repository
 
-import com.jass.authservice.model.UserRole
+import com.jass.userservice.model.UserRole
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRoleRepository: JpaRepository<UserRole, Int> {

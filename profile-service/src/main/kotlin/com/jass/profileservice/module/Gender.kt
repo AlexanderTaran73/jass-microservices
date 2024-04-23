@@ -1,13 +1,11 @@
-package com.jass.authservice.model
+package com.jass.profileservice.module
 
 import jakarta.persistence.*
-import lombok.AllArgsConstructor
-import lombok.NoArgsConstructor
 
 
 @Entity
-@Table(name="user_role")
-class UserRole {
+@Table
+class Gender {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int = 0

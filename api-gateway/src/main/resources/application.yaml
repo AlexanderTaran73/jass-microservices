@@ -14,7 +14,12 @@ spring:
     gateway:
       mvc:
         routes:
-          - id: auth-root
+          - id: auth-service
             uri: lb://auth-service
             predicates:
               - Path=/api/v1/auth/{*segments}
+
+          - id: auth-service
+            uri: lb://user-service
+            predicates:
+              - Path=/api/v1/user/{*segments}

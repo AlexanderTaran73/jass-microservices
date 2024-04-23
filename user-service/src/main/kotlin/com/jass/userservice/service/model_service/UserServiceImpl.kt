@@ -1,7 +1,7 @@
-package com.jass.authservice.service.model_service
+package com.jass.userservice.service.model_service
 
-import com.jass.authservice.model.User
-import com.jass.authservice.repository.UserRepository
+import com.jass.userservice.model.User
+import com.jass.userservice.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 

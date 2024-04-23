@@ -1,4 +1,4 @@
-package com.jass.authservice.model
+package com.jass.userservice.model
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
