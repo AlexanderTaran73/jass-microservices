@@ -6,6 +6,8 @@ interface UserService {
 
     fun save(user: User)
 
+    fun delete(user: User)
+
     fun findAll(): List<User>
 
     fun findByEmail(email: String): User?

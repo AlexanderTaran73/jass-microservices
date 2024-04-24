@@ -23,4 +23,8 @@ class Profile {
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn
     var images: MutableList<ImageInfo?> = mutableListOf()
+
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn
+    var profile_settings: ProfileSettings? = null
 }

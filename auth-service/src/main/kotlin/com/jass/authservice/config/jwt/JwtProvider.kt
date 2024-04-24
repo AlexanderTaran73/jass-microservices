@@ -41,7 +41,7 @@ class JwtProvider {
             .compact()
     }
 
-//    TODO: add refresh token verification
+
     fun refreshTokenVerification(token: String): String? {
         return Jwts
             .parser()

@@ -15,6 +15,10 @@ class UserServiceImpl(
         userRepository.save(user)
     }
 
+    override fun delete(user: User){
+        userRepository.delete(user)
+    }
+
     override fun findAll(): List<User> {
         return userRepository.findAll()
     }

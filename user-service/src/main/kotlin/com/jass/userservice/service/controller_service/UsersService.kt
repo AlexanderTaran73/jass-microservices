@@ -25,12 +25,13 @@ class UsersService(
             it.password = createUserRequest.password
             it.createdAt = LocalDateTime.now()
 
+//          TODO: add test for roles
             val userRole = userRoleService.findById(0)!!
             it.roles.add(userRole)
         }
         userService.save(user)
 
-        return ResponseEntity(ShortUserResponse(user.email, user.password, user.roles), HttpStatus.CREATED)
+        return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)
     }
 
     fun getUsersShort(email: List<String>): ResponseEntity<MutableList<ShortUserResponse?>> {
@@ -38,7 +39,7 @@ class UsersService(
         email.forEach {
             val user = userService.findByEmail(it)
             if (user == null) users.add(null)
-            else users.add(ShortUserResponse(user.email, user.password, user.roles))
+            else users.add(ShortUserResponse().userToShortUserResponse(user))
         }
         return ResponseEntity(users, HttpStatus.OK)
     }

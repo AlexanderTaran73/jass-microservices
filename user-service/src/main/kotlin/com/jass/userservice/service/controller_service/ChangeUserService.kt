@@ -15,6 +15,6 @@ class ChangeUserService(
         val user = userService.findByEmail(email) ?: return ResponseEntity(null, HttpStatus.NOT_FOUND)
         user.password = password
         userService.save(user)
-        return ResponseEntity(ShortUserResponse(user.email, user.password, user.roles), HttpStatus.OK)
+        return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.OK)
     }
 }

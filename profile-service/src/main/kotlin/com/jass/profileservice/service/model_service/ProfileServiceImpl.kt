@@ -16,6 +16,10 @@ class ProfileServiceImpl(
         profileRepository.delete(profile)
     }
 
+    override fun findAll(): List<Profile> {
+        return profileRepository.findAll()
+    }
+
     override fun findByUserEmail(userEmail: String): Profile? {
         return profileRepository.findByUserEmail(userEmail)
     }
