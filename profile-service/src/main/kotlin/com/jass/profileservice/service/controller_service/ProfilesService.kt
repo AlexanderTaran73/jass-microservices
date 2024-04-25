@@ -18,9 +18,7 @@ class ProfilesService(
     private val imageTypeService: ImageTypeService
 ) {
     fun createProfile(email: String): ResponseEntity<Any> {
-        if (profileService.findByUserEmail(email) != null) return ResponseEntity(HttpStatus.BAD_REQUEST)
-
-        val profile = Profile().also { profile ->
+        val profile = profileService.findByUserEmail(email) ?: Profile().also { profile ->
             profile.userEmail = email
             profile.userName = email.split("@")[0]
             profile.personal_info = PersonalInfo().also { personalInfo ->
@@ -34,5 +32,9 @@ class ProfilesService(
 
         profileService.save(profile)
         return ResponseEntity(ShortProfile().profileToShortProfile(profile),HttpStatus.CREATED)
+    }
+
+    fun getProfile(email: String): ResponseEntity<Any> {
+        return ResponseEntity(profileService.findByUserEmail(email) ,HttpStatus.OK)
     }
 }

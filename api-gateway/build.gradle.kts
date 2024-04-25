@@ -1,5 +1,10 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    kotlin("jvm")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.plugin.spring")
 }
 
 group = "com.jass"
@@ -10,12 +15,20 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway-mvc")
+    implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation("javax.xml.bind:jaxb-api:2.3.0-b170201.1204")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xjsr305=strict"
+        jvmTarget = "21"
+    }
 }
-kotlin {
-    jvmToolchain(21)
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

@@ -16,7 +16,7 @@ class PersonalInfo {
     @Column
     var lastName: String? = null
 
-    @ManyToOne(optional = false, cascade = [CascadeType.ALL])
+    @ManyToOne(optional = false)
     @JoinColumn
     var gender: Gender? = null
 

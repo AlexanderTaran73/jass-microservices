@@ -2,6 +2,7 @@ package com.jass.userservice.service.controller_service
 
 import com.jass.userservice.dto.CreateUserRequest
 import com.jass.userservice.dto.ShortUserResponse
+import com.jass.userservice.feign.ProfileService
 import com.jass.userservice.model.User
 import com.jass.userservice.service.model_service.UserRoleService
 import com.jass.userservice.service.model_service.UserService
@@ -14,10 +15,11 @@ import java.time.LocalDateTime
 @Service
 class UsersService(
     private val userService: UserService,
-    private val userRoleService: UserRoleService
+    private val userRoleService: UserRoleService,
+    private val profileService: ProfileService
 ) {
 
-//    TODO: add profile creation
+
     fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<ShortUserResponse> {
         if (userService.findByEmail(createUserRequest.email) != null) return ResponseEntity(null, HttpStatus.BAD_REQUEST)
         val user = User().also {
@@ -30,6 +32,8 @@ class UsersService(
             it.roles.add(userRole)
         }
         userService.save(user)
+//        Create Profile
+        profileService.createProfile(createUserRequest.email)
 
         return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)
     }

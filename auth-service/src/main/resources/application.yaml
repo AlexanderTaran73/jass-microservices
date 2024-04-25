@@ -4,6 +4,7 @@ server:
 
 
 spring:
+
   application:
     name: auth-service
 
@@ -20,3 +21,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+  instance:
+    hostname: localhost
+
