@@ -2,6 +2,7 @@ package com.jass.profileservice.module
 
 import jakarta.persistence.*
 
+// TODO: move to image-service
 @Entity
 @Table
 class ImageInfo {

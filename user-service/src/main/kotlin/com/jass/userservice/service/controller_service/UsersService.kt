@@ -27,8 +27,7 @@ class UsersService(
             it.password = createUserRequest.password
             it.createdAt = LocalDateTime.now()
 
-//          TODO: add test for roles
-            val userRole = userRoleService.findById(0)!!
+            val userRole = userRoleService.findByName("ROLE_USER")!!
             it.roles.add(userRole)
         }
         userService.save(user)

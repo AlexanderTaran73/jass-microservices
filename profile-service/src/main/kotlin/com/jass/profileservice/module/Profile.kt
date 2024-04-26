@@ -18,13 +18,14 @@ class Profile {
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn
-    var personal_info: PersonalInfo? = null
+    var personal_info: PersonalInfo = PersonalInfo()
 
+//    TODO: move to image-service
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn
     var images: MutableList<ImageInfo?> = mutableListOf()
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn
-    var profile_settings: ProfileSettings? = null
+    var profile_settings: ProfileSettings = ProfileSettings()
 }

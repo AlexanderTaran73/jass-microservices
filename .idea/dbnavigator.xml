@@ -60,6 +60,9 @@
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.registration_data" active-filter-id="e3b64831-710c-4d42-bd31-db12a6cc3f86">
       <filter id="e3b64831-710c-4d42-bd31-db12a6cc3f86" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.personal_info" active-filter-id="25afbd60-0c82-4fb7-a67a-9ef68fb4d19b">
+      <filter id="25afbd60-0c82-4fb7-a67a-9ef68fb4d19b" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

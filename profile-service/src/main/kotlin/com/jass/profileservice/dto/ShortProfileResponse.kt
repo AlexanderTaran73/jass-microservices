@@ -13,7 +13,7 @@ class ShortProfile {
     var images: MutableList<ImageInfo?> = mutableListOf()
     var profile_settings: ShortProfileSettings? = null
 
-    fun profileToShortProfile(profile: Profile): ShortProfile{
+    fun profileToShortProfile(profile: Profile): ShortProfile {
         userEmail = profile.userEmail
         userName = profile.userName
         personal_info = ShortPersonalInfo().personalInfoToShortPersonalInfo(profile.personal_info)

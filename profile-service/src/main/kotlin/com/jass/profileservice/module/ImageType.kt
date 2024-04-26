@@ -2,7 +2,7 @@ package com.jass.profileservice.module
 
 import jakarta.persistence.*
 
-
+// TODO: move to image-service
 @Entity
 @Table
 class ImageType {
@@ -11,5 +11,5 @@ class ImageType {
     var id: Int = 0
 
     @Column
-    var type: String = ""
+    var name: String = ""
 }

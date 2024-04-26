@@ -6,4 +6,6 @@ interface GenderService {
 
     fun findById(id: Int): Gender?
 
+    fun findByName(name: String): Gender?
+
 }

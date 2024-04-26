@@ -22,4 +22,8 @@ class PersonalInfo {
 
     @Column
     var birthDate: String? = null
+
+    @ManyToOne(optional = false)
+    @JoinColumn
+    var residenceCountry: ResidenceCountry? = null
 }

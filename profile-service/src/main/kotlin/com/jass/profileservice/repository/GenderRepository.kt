@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface GenderRepository: JpaRepository<Gender, Int> {
+    fun findByName(name: String): Gender?
 }

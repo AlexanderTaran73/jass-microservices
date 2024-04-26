@@ -18,4 +18,8 @@ class UserRoleServiceImpl(
         return userRoleRepository.findById(id).orElse(null)
     }
 
+    override fun findByName(name: String): UserRole? {
+        return userRoleRepository.findByName(name)
+    }
+
 }

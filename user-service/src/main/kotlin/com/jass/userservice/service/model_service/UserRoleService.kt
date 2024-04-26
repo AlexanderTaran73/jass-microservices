@@ -7,4 +7,6 @@ interface UserRoleService {
     fun save(userRole: UserRole)
 
     fun findById(id: Int): UserRole?
+
+    fun findByName(name: String): UserRole?
 }

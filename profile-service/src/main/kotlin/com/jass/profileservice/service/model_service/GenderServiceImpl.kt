@@ -13,4 +13,7 @@ class GenderServiceImpl(
         return genderRepository.findById(id).get()
     }
 
+    override fun findByName(name: String): Gender? {
+        return genderRepository.findByName(name)
+    }
 }

@@ -4,9 +4,7 @@ import com.jass.profileservice.dto.ShortProfile
 import com.jass.profileservice.module.PersonalInfo
 import com.jass.profileservice.module.Profile
 import com.jass.profileservice.module.ProfileSettings
-import com.jass.profileservice.service.model_service.GenderService
-import com.jass.profileservice.service.model_service.ImageTypeService
-import com.jass.profileservice.service.model_service.ProfileService
+import com.jass.profileservice.service.model_service.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -15,18 +13,23 @@ import org.springframework.stereotype.Service
 class ProfilesService(
     private val profileService: ProfileService,
     private val genderService: GenderService,
-    private val imageTypeService: ImageTypeService
+    private val profileColorThemeService: ProfileColorThemeService,
+    private val profileLanguageService: ProfileLanguageService,
+    private val profileVisibilityService: ProfileVisibilityService,
+    private val residenceCountryService: ResidenceCountryService
 ) {
     fun createProfile(email: String): ResponseEntity<Any> {
         val profile = profileService.findByUserEmail(email) ?: Profile().also { profile ->
             profile.userEmail = email
             profile.userName = email.split("@")[0]
             profile.personal_info = PersonalInfo().also { personalInfo ->
-//                TODO: add test for gender
-                personalInfo.gender = genderService.findById(0)!!
+                personalInfo.gender = genderService.findByName("UNDEFINED")
+                personalInfo.residenceCountry = residenceCountryService.findByName("UNDEFINED")
             }
             profile.profile_settings = ProfileSettings().also { profileSettings ->
-//                TODO: add profile settings initialization
+                profileSettings.profileVisibility = profileVisibilityService.findByName("PUBLIC")
+                profileSettings.language = profileLanguageService.findByName("ENGLISH")
+                profileSettings.colorTheme = profileColorThemeService.findByName("LIGHT")
             }
         }
 
@@ -34,6 +37,7 @@ class ProfilesService(
         return ResponseEntity(ShortProfile().profileToShortProfile(profile),HttpStatus.CREATED)
     }
 
+//    TODO: custom get profile
     fun getProfile(email: String): ResponseEntity<Any> {
         return ResponseEntity(profileService.findByUserEmail(email) ,HttpStatus.OK)
     }
