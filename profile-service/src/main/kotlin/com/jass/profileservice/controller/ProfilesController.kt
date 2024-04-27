@@ -16,8 +16,9 @@ class ProfilesController(
         return profilesService.createProfile(email)
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/my_profile")
     fun getProfile(@RequestHeader("User-Email") email: String): ResponseEntity<Any> {
         return profilesService.getProfile(email)
     }
+
 }

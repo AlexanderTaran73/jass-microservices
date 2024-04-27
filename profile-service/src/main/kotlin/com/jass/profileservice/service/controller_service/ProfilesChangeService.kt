@@ -1,9 +1,7 @@
 package com.jass.profileservice.service.controller_service
 
 import com.jass.profileservice.dto.ShortProfile
-import com.jass.profileservice.service.model_service.GenderService
-import com.jass.profileservice.service.model_service.ProfileService
-import com.jass.profileservice.service.model_service.ResidenceCountryService
+import com.jass.profileservice.service.model_service.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -21,8 +19,8 @@ class ProfilesChangeService(
                            genderName: String?,
                            birthDate: String?,
                            residenceCountry: String?,
-                           email: String): ResponseEntity<Any> {
-        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity.notFound().build()
+                           email: String): ResponseEntity<ShortProfile?> {
+        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(null, HttpStatus.NOT_FOUND)
         if (userName != null) profile.userName = userName
         profile.personal_info.also {
             if (firstName != null) it.firstName = firstName

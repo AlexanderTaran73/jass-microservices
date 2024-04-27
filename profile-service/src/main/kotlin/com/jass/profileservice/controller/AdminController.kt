@@ -12,7 +12,7 @@ class AdminController(
     private val adminService: AdminService
 ) {
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     fun deleteProfile(@RequestParam email: List<String>): ResponseEntity<Any> {
         return adminService.deleteProfile(email)
     }
@@ -22,7 +22,7 @@ class AdminController(
         return adminService.getAll()
     }
 
-    @PostMapping("/deleteAll/except_email")
+    @DeleteMapping("/deleteAll/except_email")
     fun deleteAllExceptEmail(@RequestParam email: List<String>): ResponseEntity<Any> {
         return adminService.deleteAllExceptEmail(email)
     }

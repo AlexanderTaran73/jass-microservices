@@ -28,4 +28,9 @@ class Profile {
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn
     var profile_settings: ProfileSettings = ProfileSettings()
+
+//    TODO: add friends data
+//    @OneToOne(cascade = [CascadeType.ALL])
+//    @JoinColumn
+//    var
 }
