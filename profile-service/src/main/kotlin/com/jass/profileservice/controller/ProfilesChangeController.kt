@@ -26,4 +26,12 @@ class ProfilesChangeController(
                            @RequestHeader("User-Email") email: String): ResponseEntity<ShortProfile?> {
         return profilesChangeService.changePersonalInfo(userName, firstName, lastName, gender_name, birth_date, residenceCountry, email)
     }
+
+    @PatchMapping("/change_profile_settings")
+    fun changeProfileSettings(@RequestParam profileVisibility: String?,
+                               @RequestParam language: String?,
+                               @RequestParam colorTheme: String?,
+                               @RequestHeader("User-Email") email: String): ResponseEntity<ShortProfile?> {
+        return profilesChangeService.changeProfileSettings(profileVisibility, language, colorTheme, email)
+    }
 }

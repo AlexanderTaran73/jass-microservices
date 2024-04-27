@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service
 class ProfilesChangeService(
     private val profileService: ProfileService,
     private val genderService: GenderService,
-    private val residenceCountryService: ResidenceCountryService
+    private val residenceCountryService: ResidenceCountryService,
+    private val profileVisibilityService: ProfileVisibilityService,
+    private val profileColorThemeService: ProfileColorThemeService,
+    private val profileLanguageService: ProfileLanguageService
 ) {
 
     fun changePersonalInfo(userName: String?,
@@ -31,7 +34,22 @@ class ProfilesChangeService(
         }
         profileService.save(profile)
 
-        return ResponseEntity(ShortProfile().profileToShortProfile(profile), HttpStatus.OK)
+        return ResponseEntity(ShortProfile().profileToShortProfile(profile), HttpStatus.NO_CONTENT)
+    }
+
+    fun changeProfileSettings(profileVisibility: String?,
+                              language: String?,
+                              colorTheme: String?,
+                              email: String): ResponseEntity<ShortProfile?> {
+        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(null, HttpStatus.NOT_FOUND)
+        profile.profile_settings.also {
+            if (profileVisibility != null && profileVisibilityService.findByName(profileVisibility) != null) it.profileVisibility = profileVisibilityService.findByName(profileVisibility)
+            if (language != null && profileLanguageService.findByName(language) != null) it.language = profileLanguageService.findByName(language)
+            if (colorTheme != null && profileColorThemeService.findByName(colorTheme) != null) it.colorTheme = profileColorThemeService.findByName(colorTheme)
+        }
+        profileService.save(profile)
+
+        return ResponseEntity(ShortProfile().profileToShortProfile(profile), HttpStatus.NO_CONTENT)
     }
 
 }
