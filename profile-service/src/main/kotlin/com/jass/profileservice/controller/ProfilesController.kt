@@ -21,4 +21,9 @@ class ProfilesController(
         return profilesService.getProfile(email)
     }
 
+    @GetMapping("/get/all_profiles")
+    fun getAllProfiles(@RequestHeader("User-Email") email: String): ResponseEntity<Any> {
+        return profilesService.getAllProfiles(email)
+    }
+
 }
