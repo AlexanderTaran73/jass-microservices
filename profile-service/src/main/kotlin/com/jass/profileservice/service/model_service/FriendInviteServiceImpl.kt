@@ -31,4 +31,12 @@ class FriendInviteServiceImpl(
     override fun findByInviterIdAndInvitedId(inviterId: Int, invitedId: Int): FriendInvite? {
         return friendInviteRepository.findByInviterIdAndInvitedId(inviterId, invitedId)
     }
+
+    override fun findAllByInviterId(inviterId: Int): List<FriendInvite> {
+        return friendInviteRepository.findAllByInviterId(inviterId)
+    }
+
+    override fun findAllByInvitedId(invitedId: Int): List<FriendInvite> {
+        return friendInviteRepository.findAllByInvitedId(invitedId)
+    }
 }

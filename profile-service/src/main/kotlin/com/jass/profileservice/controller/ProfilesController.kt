@@ -1,5 +1,6 @@
 package com.jass.profileservice.controller
 
+import com.jass.profileservice.dto.ProfileResponse
 import com.jass.profileservice.service.controller_service.ProfilesService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -26,5 +27,8 @@ class ProfilesController(
         return profilesService.getAllProfiles(email)
     }
 
-//    TODO: get profiles by ids
+    @GetMapping("/get/profiles_by_ids")
+    fun getProfilesByIds(@RequestHeader("User-Email") email: String, @RequestParam id: List<Int>): ResponseEntity<MutableList<ProfileResponse>> {
+        return profilesService.getProfilesByIds(email, id)
+    }
 }

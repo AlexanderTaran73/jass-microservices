@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 interface ProfileRepository: JpaRepository<Profile, Int> {
 
     fun findByUserEmail(userEmail: String): Profile?
+
 }

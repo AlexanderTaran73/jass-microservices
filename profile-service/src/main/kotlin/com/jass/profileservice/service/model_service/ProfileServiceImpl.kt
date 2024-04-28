@@ -23,4 +23,8 @@ class ProfileServiceImpl(
     override fun findByUserEmail(userEmail: String): Profile? {
         return profileRepository.findByUserEmail(userEmail)
     }
+
+    override fun findById(id: Int): Profile? {
+        return profileRepository.findById(id).get()
+    }
 }

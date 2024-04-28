@@ -2,9 +2,12 @@ package com.jass.profileservice.dto
 
 import com.jass.profileservice.module.ImageInfo
 import com.jass.profileservice.module.Profile
+import com.jass.profileservice.service.model_service.FriendInviteService
 
 
-class MyProfile: ProfileResponse(){
+class MyProfile(
+    private val friendInviteService: FriendInviteService
+): ProfileResponse(){
     override var id: Int = 0
     var userEmail = ""
     override var userName: String = ""
@@ -15,6 +18,8 @@ class MyProfile: ProfileResponse(){
     var profile_settings: MyProfileSettings? = null
     var friendsIds: MutableList<Int> = mutableListOf()
 
+    var my_friend_inviting: MutableList<Int> = mutableListOf()
+    var friend_inviting_me: MutableList<Int> = mutableListOf()
 
     fun profileToMyProfileResponse(profile: Profile): MyProfile {
         id = profile.id
@@ -25,6 +30,9 @@ class MyProfile: ProfileResponse(){
         images = profile.images
         profile_settings = MyProfileSettings().profileSettingsMyProfileSettings(profile.profile_settings)
         profile.friends.forEach { friend -> friendsIds.add(friend.id) }
+        my_friend_inviting = friendInviteService.findAllByInviterId(profile.id).map { it.invitedId }.toMutableList()
+        friend_inviting_me = friendInviteService.findAllByInvitedId(profile.id).map { it.inviterId }.toMutableList()
+
         return this
     }
 }

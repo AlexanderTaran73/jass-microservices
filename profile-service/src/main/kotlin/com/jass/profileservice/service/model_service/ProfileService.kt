@@ -11,4 +11,6 @@ interface ProfileService {
     fun findAll(): List<Profile>
 
     fun findByUserEmail(userEmail: String): Profile?
+
+    fun findById(id: Int): Profile?
 }

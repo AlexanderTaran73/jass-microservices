@@ -16,7 +16,8 @@ class ProfilesService(
     private val profileColorThemeService: ProfileColorThemeService,
     private val profileLanguageService: ProfileLanguageService,
     private val profileVisibilityService: ProfileVisibilityService,
-    private val residenceCountryService: ResidenceCountryService
+    private val residenceCountryService: ResidenceCountryService,
+    private val friendInviteService: FriendInviteService
 ) {
     fun createProfile(email: String): ResponseEntity<Any> {
         val profile = profileService.findByUserEmail(email) ?: Profile().also { profile ->
@@ -34,12 +35,12 @@ class ProfilesService(
         }
 
         profileService.save(profile)
-        return ResponseEntity(MyProfile().profileToMyProfileResponse(profile),HttpStatus.CREATED)
+        return ResponseEntity(MyProfile(friendInviteService).profileToMyProfileResponse(profile),HttpStatus.CREATED)
     }
 
 
     fun getProfile(email: String): ResponseEntity<Any> {
-        return ResponseEntity(MyProfile().profileToMyProfileResponse(profileService.findByUserEmail(email)!!) ,HttpStatus.OK)
+        return ResponseEntity(MyProfile(friendInviteService).profileToMyProfileResponse(profileService.findByUserEmail(email)!!) ,HttpStatus.OK)
     }
 
     fun getAllProfiles(email: String): ResponseEntity<Any> {
@@ -49,6 +50,17 @@ class ProfilesService(
                 if (profile.userEmail != email) list.add(ProfileResponse().profileToProfileResponse(profile, email))
             }
         }, HttpStatus.OK)
+    }
+
+    fun getProfilesByIds(email: String, id: List<Int>): ResponseEntity<MutableList<ProfileResponse>> {
+        return ResponseEntity(
+            mutableListOf<ProfileResponse>().also { list ->
+                id.forEach { profileId ->
+                    profileService.findById(profileId).let { profile ->
+                        if (profile != null) list.add(ProfileResponse().profileToProfileResponse(profile, email))
+                    }
+                }
+            }, HttpStatus.OK)
     }
 
 
