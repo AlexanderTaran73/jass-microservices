@@ -12,14 +12,15 @@ class DatabaseInitializer(
     private val profileColorThemeRepository: ProfileColorThemeRepository,
     private val profileLanguageRepository: ProfileLanguageRepository,
     private val profileVisibilityRepository: ProfileVisibilityRepository,
-    private val residenceCountryRepository: ResidenceCountryRepository
+    private val residenceCountryRepository: ResidenceCountryRepository,
+    private val inviteStatusRepository: FriendInviteStatusRepository
 ) : CommandLineRunner {
 
     @Transactional
     override fun run(vararg args: String?) {
 
 //        Gender
-        if (genderRepository.count() == 0L) {
+        if (genderRepository.count() < 4L) {
             genderRepository.saveAll(
                 listOf(
                     Gender().also { it.id = 0; it.name = "UNDEFINED" },
@@ -31,7 +32,7 @@ class DatabaseInitializer(
         }
 
 //        ProfileColorTheme
-        if (profileColorThemeRepository.count() == 0L) {
+        if (profileColorThemeRepository.count() < 2L) {
             profileColorThemeRepository.saveAll(
                 listOf(
                     ProfileColorTheme().also { it.id = 0; it.name = "LIGHT" },
@@ -41,7 +42,7 @@ class DatabaseInitializer(
         }
 
 //        ProfileLanguage
-        if (profileLanguageRepository.count() == 0L) {
+        if (profileLanguageRepository.count() < 2L) {
             profileLanguageRepository.saveAll(
                 listOf(
                     ProfileLanguage().also { it.id = 0; it.name = "ENGLISH" },
@@ -51,7 +52,7 @@ class DatabaseInitializer(
         }
 
 //        ProfileVisibility
-        if (profileVisibilityRepository.count() == 0L) {
+        if (profileVisibilityRepository.count() < 3L) {
             profileVisibilityRepository.saveAll(
                 listOf(
                     ProfileVisibility().also { it.id = 0; it.name = "PUBLIC" },
@@ -62,7 +63,7 @@ class DatabaseInitializer(
         }
 
 //        ResidenceCountry
-        if (residenceCountryRepository.count() == 0L) {
+        if (residenceCountryRepository.count() < 9L) {
             residenceCountryRepository.saveAll(
                 listOf(
                     ResidenceCountry().also { it.id = 0; it.name = "UNDEFINED" },
@@ -75,6 +76,17 @@ class DatabaseInitializer(
                     ResidenceCountry().also { it.id = 7; it.name = "USA" },
                     ResidenceCountry().also { it.id = 8; it.name = "OTHER" },
 
+                )
+            )
+        }
+
+//        InviteStatus
+        if (inviteStatusRepository.count() < 3L) {
+            inviteStatusRepository.saveAll(
+                listOf(
+                    FriendInviteStatus().also { it.id = 0; it.name = "SENT" },
+                    FriendInviteStatus().also { it.id = 1; it.name = "ACCEPTED" },
+                    FriendInviteStatus().also { it.id = 2; it.name = "REJECTED" }
                 )
             )
         }

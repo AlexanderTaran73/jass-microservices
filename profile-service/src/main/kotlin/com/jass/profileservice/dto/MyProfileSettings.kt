@@ -5,11 +5,11 @@ import com.jass.profileservice.module.ProfileLanguage
 import com.jass.profileservice.module.ProfileSettings
 import com.jass.profileservice.module.ProfileVisibility
 
-class ShortProfileSettings {
+class MyProfileSettings {
     var profileVisibility: ProfileVisibility? = null
     var language: ProfileLanguage? = null
     var colorTheme: ProfileColorTheme? = null
-    fun profileSettingsToShortProfileSettings(profileSettings: ProfileSettings?): ShortProfileSettings?{
+    fun profileSettingsMyProfileSettings(profileSettings: ProfileSettings?): MyProfileSettings?{
         if (profileSettings == null) return null
         profileVisibility = profileSettings.profileVisibility
         language = profileSettings.language

@@ -1,6 +1,6 @@
 package com.jass.profileservice.service.controller_service
 
-import com.jass.profileservice.dto.ShortProfile
+
 import com.jass.profileservice.service.model_service.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,8 +22,8 @@ class ProfilesChangeService(
                            genderName: String?,
                            birthDate: String?,
                            residenceCountry: String?,
-                           email: String): ResponseEntity<ShortProfile?> {
-        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(null, HttpStatus.NOT_FOUND)
+                           email: String): ResponseEntity<HttpStatus> {
+        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity( HttpStatus.NOT_FOUND)
         if (userName != null) profile.userName = userName
         profile.personal_info.also {
             if (firstName != null) it.firstName = firstName
@@ -34,14 +34,14 @@ class ProfilesChangeService(
         }
         profileService.save(profile)
 
-        return ResponseEntity(ShortProfile().profileToShortProfile(profile), HttpStatus.NO_CONTENT)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     fun changeProfileSettings(profileVisibility: String?,
                               language: String?,
                               colorTheme: String?,
-                              email: String): ResponseEntity<ShortProfile?> {
-        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(null, HttpStatus.NOT_FOUND)
+                              email: String): ResponseEntity<HttpStatus> {
+        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         profile.profile_settings.also {
             if (profileVisibility != null && profileVisibilityService.findByName(profileVisibility) != null) it.profileVisibility = profileVisibilityService.findByName(profileVisibility)
             if (language != null && profileLanguageService.findByName(language) != null) it.language = profileLanguageService.findByName(language)
@@ -49,7 +49,7 @@ class ProfilesChangeService(
         }
         profileService.save(profile)
 
-        return ResponseEntity(ShortProfile().profileToShortProfile(profile), HttpStatus.NO_CONTENT)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
 }

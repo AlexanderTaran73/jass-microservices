@@ -4,14 +4,14 @@ import com.jass.profileservice.module.Gender
 import com.jass.profileservice.module.PersonalInfo
 import com.jass.profileservice.module.ResidenceCountry
 
-class ShortPersonalInfo {
+class MyPersonalInfo {
     var firstName: String? = null
     var lastName: String? = null
     var gender: Gender? = null
     var birthDate: String? = null
     var residenceCountry: ResidenceCountry? = null
 
-    fun personalInfoToShortPersonalInfo(personalInfo: PersonalInfo?): ShortPersonalInfo?{
+    fun personalInfoToMyPersonalInfo(personalInfo: PersonalInfo?): MyPersonalInfo?{
         if (personalInfo == null) return null
         firstName = personalInfo.firstName
         lastName = personalInfo.lastName

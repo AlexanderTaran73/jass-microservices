@@ -1,7 +1,6 @@
 package com.jass.profileservice.service.controller_service
 
-import com.jass.profileservice.dto.PublicProfile
-import com.jass.profileservice.dto.ShortProfile
+import com.jass.profileservice.dto.*
 import com.jass.profileservice.module.PersonalInfo
 import com.jass.profileservice.module.Profile
 import com.jass.profileservice.module.ProfileSettings
@@ -35,27 +34,22 @@ class ProfilesService(
         }
 
         profileService.save(profile)
-        return ResponseEntity(ShortProfile().profileToShortProfile(profile),HttpStatus.CREATED)
+        return ResponseEntity(MyProfile().profileToMyProfileResponse(profile),HttpStatus.CREATED)
     }
 
-//    TODO: custom get profile
+
     fun getProfile(email: String): ResponseEntity<Any> {
-        return ResponseEntity(ShortProfile().profileToShortProfile(profileService.findByUserEmail(email)!!) ,HttpStatus.OK)
+        return ResponseEntity(MyProfile().profileToMyProfileResponse(profileService.findByUserEmail(email)!!) ,HttpStatus.OK)
     }
 
     fun getAllProfiles(email: String): ResponseEntity<Any> {
         return ResponseEntity(
-            mutableListOf<PublicProfile>().also { list ->
+            mutableListOf<ProfileResponse>().also { list ->
             profileService.findAll().forEach { profile ->
-                if (profile.userEmail != email) {
-                    if (profile.profile_settings.profileVisibility!!.name == "PUBLIC") list.add(
-                        PublicProfile().profileToPublicProfile(
-                            profile
-                        )!!
-                    )
-//                else if (profile.profile_settings.profileVisibility!!.name == "FRIENDS_ONLY") TODO: add friends test
-                }
+                if (profile.userEmail != email) list.add(ProfileResponse().profileToProfileResponse(profile, email))
             }
         }, HttpStatus.OK)
     }
+
+
 }

@@ -1,10 +1,10 @@
 package com.jass.profileservice.controller
 
-import com.jass.profileservice.dto.ShortProfile
+
 import com.jass.profileservice.service.controller_service.ProfilesChangeService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -23,7 +23,7 @@ class ProfilesChangeController(
                            @RequestParam gender_name: String?,
                            @RequestParam birth_date: String?,
                            @RequestParam residenceCountry: String?,
-                           @RequestHeader("User-Email") email: String): ResponseEntity<ShortProfile?> {
+                           @RequestHeader("User-Email") email: String): ResponseEntity<HttpStatus> {
         return profilesChangeService.changePersonalInfo(userName, firstName, lastName, gender_name, birth_date, residenceCountry, email)
     }
 
@@ -31,7 +31,7 @@ class ProfilesChangeController(
     fun changeProfileSettings(@RequestParam profileVisibility: String?,
                                @RequestParam language: String?,
                                @RequestParam colorTheme: String?,
-                               @RequestHeader("User-Email") email: String): ResponseEntity<ShortProfile?> {
+                               @RequestHeader("User-Email") email: String): ResponseEntity<HttpStatus> {
         return profilesChangeService.changeProfileSettings(profileVisibility, language, colorTheme, email)
     }
 }

@@ -26,4 +26,5 @@ class ProfilesController(
         return profilesService.getAllProfiles(email)
     }
 
+//    TODO: get profiles by ids
 }

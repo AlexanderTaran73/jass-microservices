@@ -29,6 +29,10 @@ class Profile {
     @JoinColumn
     var profile_settings: ProfileSettings = ProfileSettings()
 
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @JoinTable
+    var friends: MutableSet<Profile> = mutableSetOf() // TODO: test -> && <-
+
 //    TODO: add friends data
 //    @OneToOne(cascade = [CascadeType.ALL])
 //    @JoinColumn
