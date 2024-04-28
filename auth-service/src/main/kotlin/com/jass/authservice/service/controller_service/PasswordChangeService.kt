@@ -67,7 +67,7 @@ class PasswordChangeService(
 
     fun generateChangePasswordToken(): String {
         val random = Random.Default
-        val tokenLength = 4
+        val tokenLength = 6
         val stringBuilder = StringBuilder()
 
         repeat(tokenLength) {
