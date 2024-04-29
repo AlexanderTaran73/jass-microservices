@@ -50,7 +50,8 @@ class FriendsService(
 
         val friendInvite = friendInviteService.findByInviterIdAndInvitedId(id, profile.id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
 
-        friendInviteService.delete(friendInvite)
+        friendInvite.status = friendInviteStatusService.findByName("ACCEPTED")!!
+        friendInviteService.save(friendInvite)
 
         profile.friends.add(recipient)
         recipient.friends.add(profile)
@@ -90,6 +91,9 @@ class FriendsService(
 
         profileService.save(profile)
         profileService.save(recipient)
+
+        val friendInvite = friendInviteService.findByInviterIdAndInvitedId(id, profile.id) ?: friendInviteService.findByInviterIdAndInvitedId(profile.id, id)
+        if (friendInvite != null) friendInviteService.delete(friendInvite)
 
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }

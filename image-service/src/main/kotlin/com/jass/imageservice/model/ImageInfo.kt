@@ -18,4 +18,7 @@ class ImageInfo {
 
     @Column
     var ownerId: Int = 0
+
+    @Column
+    var createdTime: String = ""
 }

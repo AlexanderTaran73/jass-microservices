@@ -16,6 +16,7 @@ class ImageInfoServiceImpl(
             info.fileName = fileName
             info.type = imageTypeRepository.findByName(type)
             info.ownerId = ownerId
+            info.createdTime = System.currentTimeMillis().toString()
         }
         save(imageInfo)
         return imageInfo

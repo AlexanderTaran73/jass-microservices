@@ -1,12 +1,12 @@
-package com.jass.profileservice.dto
+package com.jass.profileservice.dto.short_profile
 
 import com.jass.profileservice.module.PersonalInfo
 
-class ClosedPersonalInfo {
+class ShortClosedPersonalInfo {
     var firstName: String? = null
     var lastName: String? = null
 
-    fun personalInfoToClosedPersonalInfo(personalInfo: PersonalInfo?): ClosedPersonalInfo?{
+    fun personalInfoToShortClosedPersonalInfo(personalInfo: PersonalInfo?): ShortClosedPersonalInfo?{
         if (personalInfo == null) return null
         firstName = personalInfo.firstName
         lastName = personalInfo.lastName

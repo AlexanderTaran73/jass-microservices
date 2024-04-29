@@ -1,4 +1,4 @@
-package com.jass.profileservice.dto
+package com.jass.profileservice.dto.my_profile
 
 import com.jass.profileservice.module.Gender
 import com.jass.profileservice.module.PersonalInfo

@@ -1,17 +1,17 @@
-package com.jass.profileservice.dto
+package com.jass.profileservice.dto.short_profile
 
 import com.jass.profileservice.module.Gender
 import com.jass.profileservice.module.PersonalInfo
 import com.jass.profileservice.module.ResidenceCountry
 
-class PublicPersonalInfo {
+class ShortPublicPersonalInfo {
     var firstName: String? = null
     var lastName: String? = null
     var gender: Gender? = null
     var birthDate: String? = null
     var residenceCountry: ResidenceCountry? = null
 
-    fun personalInfoToPublicPersonalInfo(personalInfo: PersonalInfo?): PublicPersonalInfo?{
+    fun personalInfoToShortPublicPersonalInfo(personalInfo: PersonalInfo?): ShortPublicPersonalInfo?{
         if (personalInfo == null) return null
         firstName = personalInfo.firstName
         lastName = personalInfo.lastName

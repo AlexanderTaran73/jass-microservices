@@ -1,20 +1,22 @@
-package com.jass.profileservice.dto
+package com.jass.profileservice.dto.my_profile
 
-import com.jass.profileservice.module.ImageInfo
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.jass.profileservice.dto.ImageInfoResponse
+import com.jass.profileservice.feign.ImageService
 import com.jass.profileservice.module.Profile
 import com.jass.profileservice.service.model_service.FriendInviteService
 
 
 class MyProfile(
-    private val friendInviteService: FriendInviteService
-): ProfileResponse(){
-    override var id: Int = 0
+    @JsonIgnore private val friendInviteService: FriendInviteService,
+    @JsonIgnore private val imageService: ImageService
+){
+    var id: Int = 0
     var userEmail = ""
-    override var userName: String = ""
+    var userName: String = ""
     var personal_info: MyPersonalInfo? = null
-// TODO: move to image-service
-    override var avatar: ImageInfo? = null
-    var images: MutableList<ImageInfo?> = mutableListOf()
+    var avatar: String? = null
+    var images: MutableList<String> = mutableListOf()
     var profile_settings: MyProfileSettings? = null
     var friendsIds: MutableList<Int> = mutableListOf()
 
@@ -26,8 +28,23 @@ class MyProfile(
         userEmail = profile.userEmail
         userName = profile.userName
         personal_info = MyPersonalInfo().personalInfoToMyPersonalInfo(profile.personal_info)
-//        avatar = profile.avatar TODO: get avatar
-        images = profile.images
+
+        try {
+            avatar = imageService.getImageInfo("ProfileAvatar", profile.id).body!!.get(0).fileName
+        } catch (e: Exception) {
+            avatar = null
+        }
+
+        try {
+            val imageList = imageService.getImageInfo("ProfileImage", profile.id).body!!
+
+            imageList.forEach { image ->
+                images.add(image.fileName)
+            }
+        } catch (e: Exception) { }
+
+
+
         profile_settings = MyProfileSettings().profileSettingsMyProfileSettings(profile.profile_settings)
         profile.friends.forEach { friend -> friendsIds.add(friend.id) }
         my_friend_inviting = friendInviteService.findAllByInviterId(profile.id).map { it.invitedId }.toMutableList()

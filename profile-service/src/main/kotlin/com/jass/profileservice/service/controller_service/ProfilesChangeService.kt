@@ -5,6 +5,7 @@ import com.jass.profileservice.service.model_service.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class ProfilesChangeService(
@@ -51,5 +52,9 @@ class ProfilesChangeService(
 
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
+
+//    fun changeAvatarImage(email: String, imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+//        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+//    }
 
 }

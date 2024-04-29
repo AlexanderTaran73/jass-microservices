@@ -1,5 +1,7 @@
 package com.jass.imageservice.service.controller_service
 
+import com.jass.imageservice.dto.ImageInfoResponse
+import com.jass.imageservice.model.ImageInfo
 import com.jass.imageservice.service.model_service.ImageInfoService
 import com.jass.imageservice.utils.formatFileName
 import com.jass.imageservice.utils.getCurrentTimestamp
@@ -33,7 +35,7 @@ class ImageService(
         imageInfoService.create(fileName, type, ownerId)
         writeFileAtDestination(destination, bytes)
 
-        return ResponseEntity(fileName, HttpStatus.CREATED)
+        return ResponseEntity(HttpStatus.CREATED)
     }
 
     fun getImage(fileName: String): FileSystemResource {
@@ -45,9 +47,14 @@ class ImageService(
     }
 
 
-    fun getImageInfo(type: String, ownerId: Int): ResponseEntity<Any> {
+    fun getImageInfo(type: String, ownerId: Int): ResponseEntity<List<ImageInfoResponse>> {
         return ResponseEntity(
-            imageInfoService.findAllByOwnerIdAndType(ownerId, type),
+            imageInfoService.findAllByOwnerIdAndType(ownerId, type).map { ImageInfoResponse().also { response ->
+                    response.fileName = it.fileName
+                    response.type = it.type!!.name
+                    response.ownerId = it.ownerId
+                }
+            },
             HttpStatus.OK
         )
     }

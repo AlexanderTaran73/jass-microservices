@@ -1,5 +1,6 @@
 package com.jass.imageservice.controller
 
+import com.jass.imageservice.dto.ImageInfoResponse
 import com.jass.imageservice.service.controller_service.ImageService
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpStatus
@@ -25,10 +26,9 @@ class ImageController(
     }
 
     @GetMapping("/getImageInfo")
-    fun getImageInfo(@RequestParam type: String, @RequestParam ownerId: Int): ResponseEntity<Any> {
+    fun getImageInfo(@RequestParam type: String, @RequestParam ownerId: Int): ResponseEntity<List<ImageInfoResponse>> {
         return imageService.getImageInfo(type, ownerId)
     }
-
 
     @DeleteMapping("/deleteImage/{fileName}")
     fun deleteImage(@PathVariable fileName: String): ResponseEntity<Any> {
