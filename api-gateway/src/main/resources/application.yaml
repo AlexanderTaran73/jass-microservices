@@ -36,6 +36,13 @@ spring:
           filters:
             - name: AddEmailHeaderFilter
 
+        - id: image-service
+          uri: lb://image-service
+          predicates:
+            - Path=/api/v1/image/getImage/{*segments}
+          filters:
+            - name: AddEmailHeaderFilter
+
   main:
     web-application-type: REACTIVE
     allow-bean-definition-overriding: true
