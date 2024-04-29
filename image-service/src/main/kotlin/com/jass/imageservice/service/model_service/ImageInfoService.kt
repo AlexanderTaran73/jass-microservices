@@ -13,5 +13,7 @@ interface ImageInfoService {
 
     fun findAllByOwnerIdAndType(ownerId: Int, type: String): List<ImageInfo>
 
+    fun findByFileName(fileName: String): ImageInfo?
+
     fun delete(imageInfo: ImageInfo)
 }

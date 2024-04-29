@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository
 interface ImageInfoRepository: JpaRepository<ImageInfo, Int> {
 
     fun findAllByOwnerIdAndType(ownerId: Int, type: ImageType): List<ImageInfo>
+
+    fun findByFileName(fileName: String): ImageInfo?
 }

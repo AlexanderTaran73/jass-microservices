@@ -33,6 +33,10 @@ class ImageInfoServiceImpl(
         return imageInfoRepository.findAllByOwnerIdAndType(ownerId, imageTypeRepository.findByName(type)!!)
     }
 
+    override fun findByFileName(fileName: String): ImageInfo? {
+        return imageInfoRepository.findByFileName(fileName)
+    }
+
     override fun delete(imageInfo: ImageInfo) {
         imageInfoRepository.delete(imageInfo)
     }

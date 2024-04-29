@@ -28,4 +28,10 @@ class ImageController(
     fun getImageInfo(@RequestParam type: String, @RequestParam ownerId: Int): ResponseEntity<Any> {
         return imageService.getImageInfo(type, ownerId)
     }
+
+
+    @DeleteMapping("/deleteImage/{fileName}")
+    fun deleteImage(@PathVariable fileName: String): ResponseEntity<Any> {
+        return imageService.deleteImage(fileName)
+    }
 }

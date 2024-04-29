@@ -4,6 +4,7 @@ import com.jass.imageservice.service.model_service.ImageInfoService
 import com.jass.imageservice.utils.formatFileName
 import com.jass.imageservice.utils.getCurrentTimestamp
 import com.jass.imageservice.utils.getFileNameAndExtension
+import org.apache.commons.io.FileUtils
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -51,6 +52,15 @@ class ImageService(
         )
     }
 
+    fun deleteImage(fileName: String): ResponseEntity<Any> {
+        val destination = getDestination(fileName)
+        val file = File(destination)
+        val success: Boolean = FileUtils.deleteQuietly(file)
+        if (!success) throw FileNotFoundException("File with $fileName not found.")
+        val imageInfo = imageInfoService.findByFileName(fileName)
+        if (imageInfo != null) imageInfoService.delete(imageInfo)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
 
     private fun getDestination(fileName: String): String {
         return "$rootFolder${fileName.trim()}"
@@ -73,4 +83,6 @@ class ImageService(
         val path = Paths.get(destination)
         Files.write(path, bytes)
     }
+
+
 }
