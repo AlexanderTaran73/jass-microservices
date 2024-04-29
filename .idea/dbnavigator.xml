@@ -33,14 +33,8 @@
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.users" active-filter-id="52dc6d17-ddf8-402a-b329-244615ee878c">
       <filter id="52dc6d17-ddf8-402a-b329-244615ee878c" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
-    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.gender" active-filter-id="6936642e-4869-43a1-909c-209438ef640f">
-      <filter id="6936642e-4869-43a1-909c-209438ef640f" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.profile" active-filter-id="31edab2e-58d8-4079-9854-9d1c1fb385ee">
       <filter id="31edab2e-58d8-4079-9854-9d1c1fb385ee" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
-    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.image_type" active-filter-id="64a3e7df-ef68-4cfe-ba30-223876168cfb">
-      <filter id="64a3e7df-ef68-4cfe-ba30-223876168cfb" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.user_role" active-filter-id="ceb6a726-d761-4c64-8667-6c88ade08d59">
       <filter id="ceb6a726-d761-4c64-8667-6c88ade08d59" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
@@ -48,11 +42,26 @@
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.image_info" active-filter-id="88fb7229-8e70-4918-8e16-3eb50032cf7d">
       <filter id="88fb7229-8e70-4918-8e16-3eb50032cf7d" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
-    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.users_roles" active-filter-id="ac34a14b-f740-4dc1-94df-e5aadeceb259">
-      <filter id="ac34a14b-f740-4dc1-94df-e5aadeceb259" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.friend_invite" active-filter-id="97ddd6c0-fb40-4721-ba28-29dd08908025">
+      <filter id="97ddd6c0-fb40-4721-ba28-29dd08908025" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.profile_settings" active-filter-id="d16fcb37-4890-44aa-b8da-bd51bee9dcc6">
       <filter id="d16fcb37-4890-44aa-b8da-bd51bee9dcc6" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.gender" active-filter-id="6936642e-4869-43a1-909c-209438ef640f">
+      <filter id="6936642e-4869-43a1-909c-209438ef640f" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.profile_visibility" active-filter-id="5a69c455-1f59-4ec8-9fb9-355637388430">
+      <filter id="5a69c455-1f59-4ec8-9fb9-355637388430" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.image_type" active-filter-id="64a3e7df-ef68-4cfe-ba30-223876168cfb">
+      <filter id="64a3e7df-ef68-4cfe-ba30-223876168cfb" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.friend_invite_status" active-filter-id="d69aeaad-aacd-46eb-a5d2-30ebd62f39f5">
+      <filter id="d69aeaad-aacd-46eb-a5d2-30ebd62f39f5" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.users_roles" active-filter-id="ac34a14b-f740-4dc1-94df-e5aadeceb259">
+      <filter id="ac34a14b-f740-4dc1-94df-e5aadeceb259" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
     <filter-actions connection-id="5527648e-4207-4d60-ad8f-077b7cb3dffd" dataset="public.change_password_data" active-filter-id="364eb5c8-2616-4eee-b382-39b1f261f723">
       <filter id="364eb5c8-2616-4eee-b382-39b1f261f723" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
