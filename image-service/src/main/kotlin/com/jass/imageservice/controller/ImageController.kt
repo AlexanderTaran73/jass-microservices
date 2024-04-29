@@ -34,4 +34,5 @@ class ImageController(
     fun deleteImage(@PathVariable fileName: String): ResponseEntity<Any> {
         return imageService.deleteImage(fileName)
     }
+
 }

@@ -4,6 +4,7 @@ package com.jass.profileservice.controller
 import com.jass.profileservice.service.controller_service.ProfilesChangeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestHeader
@@ -37,13 +38,18 @@ class ProfilesChangeController(
         return profilesChangeService.changeProfileSettings(profileVisibility, language, colorTheme, email)
     }
 
-//    @PatchMapping("/change_avatar_image")
-//    fun changeAvatarImage(@RequestHeader("User-Email") email: String, @RequestParam("imageFile") imageFile: MultipartFile): ResponseEntity<HttpStatus> {
-//        return profilesChangeService.changeAvatarImage(email, imageFile)
-//    }
-//
-//    @PostMapping("/add_profile_image")
-//    fun addProfileImage(@RequestHeader("User-Email") email: String, @RequestParam("imageFile") imageFile: MultipartFile): ResponseEntity<HttpStatus> {
-//        return profilesChangeService.addProfileImage(email, imageFile)
-//    }
+    @PatchMapping("/change_avatar_image")
+    fun changeAvatarImage(@RequestHeader("User-Email") email: String, @RequestParam("imageFile") imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+        return profilesChangeService.changeAvatarImage(email, imageFile)
+    }
+
+    @PatchMapping("/add_profile_image")
+    fun addProfileImage(@RequestHeader("User-Email") email: String, @RequestParam("imageFile") imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+        return profilesChangeService.addProfileImage(email, imageFile)
+    }
+
+    @DeleteMapping("/delete_profile_image")
+    fun deleteProfileImage(@RequestHeader("User-Email") email: String, @RequestParam fileName: String): ResponseEntity<HttpStatus> {
+        return profilesChangeService.deleteProfileImage(email, fileName)
+    }
 }

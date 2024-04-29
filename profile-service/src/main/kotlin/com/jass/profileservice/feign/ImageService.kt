@@ -9,10 +9,16 @@ import org.springframework.web.multipart.MultipartFile
 @FeignClient(name = "image-service")
 interface ImageService {
 
-    @PostMapping("/api/v1/image/saveImage")
-    fun saveImage(@RequestParam("imageFile") imageFile: MultipartFile, @RequestParam type: String, @RequestParam ownerId: Int): ResponseEntity<Any>
+    @PostMapping("/api/v1/image/saveImage", consumes = ["multipart/form-data"])
+    fun saveImage(
+        @RequestPart("imageFile") imageFile: MultipartFile,
+        @RequestPart("type") type: String,
+        @RequestPart("ownerId") ownerId: Int
+    ): ResponseEntity<Any>
 
     @GetMapping("/api/v1/image/getImageInfo")
     fun getImageInfo(@RequestParam type: String, @RequestParam ownerId: Int): ResponseEntity<List<ImageInfoResponse>>
 
+    @DeleteMapping("/api/v1/image/deleteImage/{fileName}")
+    fun deleteImage(@PathVariable fileName: String): ResponseEntity<Any>
 }

@@ -1,6 +1,7 @@
 package com.jass.profileservice.service.controller_service
 
 
+import com.jass.profileservice.feign.ImageService
 import com.jass.profileservice.service.model_service.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,7 +15,8 @@ class ProfilesChangeService(
     private val residenceCountryService: ResidenceCountryService,
     private val profileVisibilityService: ProfileVisibilityService,
     private val profileColorThemeService: ProfileColorThemeService,
-    private val profileLanguageService: ProfileLanguageService
+    private val profileLanguageService: ProfileLanguageService,
+    private val imageService: ImageService
 ) {
 
     fun changePersonalInfo(userName: String?,
@@ -53,8 +55,31 @@ class ProfilesChangeService(
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
-//    fun changeAvatarImage(email: String, imageFile: MultipartFile): ResponseEntity<HttpStatus> {
-//        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-//    }
+    fun changeAvatarImage(email: String, imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+
+        var avatar: String?
+        try {
+            avatar = imageService.getImageInfo("ProfileAvatar", profile.id).body!!.get(0).fileName
+            imageService.deleteImage(avatar)
+        } catch (e: Exception) {
+            avatar = null
+        }
+
+        imageService.saveImage(imageFile, "ProfileAvatar", profile.id)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    fun addProfileImage(email: String, imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+        val profile = profileService.findByUserEmail(email) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        imageService.saveImage(imageFile, "ProfileImage", profile.id)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    fun deleteProfileImage(email: String, fileName: String): ResponseEntity<HttpStatus> {
+        imageService.deleteImage(fileName)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
 
 }
