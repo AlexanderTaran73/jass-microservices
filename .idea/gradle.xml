@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/auth-service" />
             <option value="$PROJECT_DIR$/discovery-server" />
             <option value="$PROJECT_DIR$/email-service" />
+            <option value="$PROJECT_DIR$/event-service" />
             <option value="$PROJECT_DIR$/image-service" />
             <option value="$PROJECT_DIR$/profile-service" />
             <option value="$PROJECT_DIR$/user-service" />
