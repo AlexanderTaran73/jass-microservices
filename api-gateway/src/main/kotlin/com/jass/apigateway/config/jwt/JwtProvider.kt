@@ -38,4 +38,12 @@ class JwtProvider {
         } catch (e: Exception) { }
         return null
     }
+
+    fun getIdFromToken(token: String?): Int? {
+        try {
+            val claims = Jwts.parser().setSigningKey(accessJwtSecret).parseClaimsJws(token).body
+            return claims["id"] as Int
+        } catch (e: Exception) { }
+        return null
+    }
 }

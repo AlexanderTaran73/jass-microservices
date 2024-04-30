@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class AddEmailHeaderFilter(
+class AddEmailAndIdHeaderFilter(
     private val jwtProvider: JwtProvider
 ) : AbstractGatewayFilterFactory<Any>() {
 
@@ -20,8 +20,10 @@ class AddEmailHeaderFilter(
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 val token = authorizationHeader.substring(7)
                 val email = jwtProvider.getEmailFromToken(token)
+                val id = jwtProvider.getIdFromToken(token)
                 val modifiedRequest = exchange.request.mutate()
                     .header("User-Email", email)
+                    .header("User-Id", id.toString())
                     .build()
                 chain.filter(exchange.mutate().request(modifiedRequest).build())
             } else {
