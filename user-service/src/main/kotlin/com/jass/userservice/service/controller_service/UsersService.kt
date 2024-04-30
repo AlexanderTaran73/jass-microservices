@@ -32,7 +32,7 @@ class UsersService(
         }
         userService.save(user)
 //        Create Profile
-        profileService.createProfile(createUserRequest.email)
+        profileService.createProfile(createUserRequest.email, user.id)
 
         return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)
     }

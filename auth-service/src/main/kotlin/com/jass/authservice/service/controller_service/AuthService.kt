@@ -25,7 +25,7 @@ class AuthService(
 
         return ResponseEntity(
             AuthResponse(
-                jwtProvider.generateAccessToken(user.email, user.roles.map { it.name }),
+                jwtProvider.generateAccessToken(user.email, user.id, user.roles.map { it.name }),
                 jwtProvider.generateRefreshToken(user.email)
             ), HttpStatus.OK)
     }
@@ -39,7 +39,7 @@ class AuthService(
 
         return ResponseEntity(
             AuthResponse(
-                jwtProvider.generateAccessToken(user.email, user.roles.map { it.name }),
+                jwtProvider.generateAccessToken(user.email, user.id, user.roles.map { it.name }),
                 refreshTokenCookie.value
             ), HttpStatus.OK)
     }

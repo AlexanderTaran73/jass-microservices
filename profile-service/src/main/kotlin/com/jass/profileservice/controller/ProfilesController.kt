@@ -14,8 +14,8 @@ class ProfilesController(
 ) {
 
     @PostMapping("/create")
-    fun createProfile(@RequestParam email: String): ResponseEntity<Any> {
-        return profilesService.createProfile(email)
+    fun createProfile(@RequestParam email: String, @RequestParam userId: Int): ResponseEntity<Any> {
+        return profilesService.createProfile(email, userId)
     }
 
     @GetMapping("/get/my_profile")

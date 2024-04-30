@@ -7,7 +7,6 @@ import jakarta.persistence.*
 @Table
 class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int = 0
 
     @Column(unique = true)

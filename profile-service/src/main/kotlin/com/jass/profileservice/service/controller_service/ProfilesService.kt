@@ -24,8 +24,9 @@ class ProfilesService(
     private val friendInviteService: FriendInviteService,
     private val imageService: ImageService
 ) {
-    fun createProfile(email: String): ResponseEntity<Any> {
+    fun createProfile(email: String, userId: Int): ResponseEntity<Any> {
         val profile = profileService.findByUserEmail(email) ?: Profile().also { profile ->
+            profile.id = userId
             profile.userEmail = email
             profile.userName = email.split("@")[0]
             profile.personal_info = PersonalInfo().also { personalInfo ->

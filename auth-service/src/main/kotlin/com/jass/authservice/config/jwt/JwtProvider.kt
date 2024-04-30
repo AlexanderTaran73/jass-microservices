@@ -19,13 +19,14 @@ class JwtProvider {
     var accessJwtSecret = "accessJwtSecret"
     var refreshJwtSecret = "refreshJwtSecret"
 
-    fun generateAccessToken(email: String?, roles: List<String>): String {
+    fun generateAccessToken(email: String?, id: Int, roles: List<String>): String {
 
 
 
         val date = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
         return Jwts.builder()
             .setSubject(email)
+            .claim("id", id)
             .claim("roles", roles)
             .setExpiration(date)
             .signWith(SignatureAlgorithm.HS512, accessJwtSecret)

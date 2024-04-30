@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 interface ProfileService {
 
     @PostMapping("/api/v1/profile/create")
-    fun createProfile(@RequestParam email: String): ResponseEntity<Any>
+    fun createProfile(@RequestParam email: String, @RequestParam userId: Int): ResponseEntity<Any>
 
 
 //    Admin Controller

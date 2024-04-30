@@ -62,7 +62,7 @@ class RegistrationService(
 
             return ResponseEntity(
                 AuthResponse(
-                    jwtProvider.generateAccessToken(shortUser.email, shortUser.roles.map { it.name }),
+                    jwtProvider.generateAccessToken(shortUser.email, shortUser.id, shortUser.roles.map { it.name }),
                     jwtProvider.generateRefreshToken(shortUser.email)
                 ), HttpStatus.CREATED)
         }
