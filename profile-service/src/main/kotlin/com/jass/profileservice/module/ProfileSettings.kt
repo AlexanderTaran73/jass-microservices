@@ -20,5 +20,5 @@ class ProfileSettings {
     @ManyToOne(optional = false)
     @JoinColumn
     var colorTheme: ProfileColorTheme? = null
-//    TODO: add profile settings
+
 }
