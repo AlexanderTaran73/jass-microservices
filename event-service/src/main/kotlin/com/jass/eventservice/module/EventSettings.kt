@@ -2,6 +2,7 @@ package com.jass.eventservice.module
 
 import com.jass.eventservice.module.type_dictionary.AccessToEvent
 import com.jass.eventservice.module.type_dictionary.EventVisibility
+import com.jass.eventservice.module.type_dictionary.ParticipantsVisibility
 import jakarta.persistence.*
 
 
@@ -19,6 +20,10 @@ class EventSettings {
     @ManyToOne
     @JoinColumn
     var accessToEvent: AccessToEvent? = null
+
+    @ManyToOne
+    @JoinColumn
+    var participantsVisibility: ParticipantsVisibility? = null
 
 //    TODO: event code
 

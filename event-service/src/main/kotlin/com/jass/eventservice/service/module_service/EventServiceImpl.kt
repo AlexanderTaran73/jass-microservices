@@ -12,7 +12,8 @@ class EventServiceImpl(
     private val accessToEventRepository: AccessToEventRepository,
     private val eventTypeRepository: EventTypeRepository,
     private val eventVisibilityRepository: EventVisibilityRepository,
-    private val organizerRightsRepository: OrganizerRightsRepository
+    private val organizerRightsRepository: OrganizerRightsRepository,
+    private val participantsVisibilityRepository: ParticipantsVisibilityRepository
 ): EventService {
 
     override fun create(id: Int, createEventRequest: CreateEventRequest): Event {
@@ -33,6 +34,9 @@ class EventServiceImpl(
 
                 settings.accessToEvent = accessToEventRepository.findByName(createEventRequest.settings?.accessToEvent.toString())
                     ?: accessToEventRepository.findByName("ByRequest")!!
+
+                settings.participantsVisibility = participantsVisibilityRepository.findByName(createEventRequest.settings?.participantsVisibility.toString())
+                    ?: participantsVisibilityRepository.findByName("VISIBLE")!!
             }
 
             event.eventOrganizers.add(
