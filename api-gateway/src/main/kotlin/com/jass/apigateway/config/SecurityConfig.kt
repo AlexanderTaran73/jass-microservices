@@ -24,7 +24,8 @@ class SecurityConfig(
                     .pathMatchers("/api/v1/auth/**").permitAll()
                     .pathMatchers(
                         "/api/v1/user/admin/**",
-                        "/api/v1/profile/admin/**"
+                        "/api/v1/profile/admin/**",
+                        "/api/v1/event/admin/**",
                     ).hasAnyRole("ADMIN")
                     .pathMatchers(
                         "/api/v1/user/**",

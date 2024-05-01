@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
+@Transactional
 interface EventRepository: JpaRepository<Event, Int> {
-    @Transactional
     fun findByEventOrganizersUserId(userId: Int): List<Event>
+
+    fun deleteByIdNotIn(id: List<Int>)
 }
