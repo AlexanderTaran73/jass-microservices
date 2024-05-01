@@ -11,7 +11,8 @@ class DatabaseInitializer(
     private val eventTypeRepository: EventTypeRepository,
     private val organizerRightsRepository: OrganizerRightsRepository,
     private val eventVisibilityRepository: EventVisibilityRepository,
-    private val accessToEventRepository: AccessToEventRepository
+    private val accessToEventRepository: AccessToEventRepository,
+    private val participantsVisibilityRepository: ParticipantsVisibilityRepository
 ): CommandLineRunner {
     override fun run(vararg args: String?) {
 //        EventQuestionType
@@ -70,6 +71,17 @@ class DatabaseInitializer(
                     AccessToEvent().also { it.id = 2; it.name = "ByPayment" },
                 )
             )
+        }
+
+//        ParticipantsVisibility
+        if (participantsVisibilityRepository.count() < 2L) {
+            participantsVisibilityRepository.saveAll(
+                listOf(
+                    ParticipantsVisibility().also { it.id = 0; it.name = "VISIBLE" },
+                    ParticipantsVisibility().also { it.id = 1; it.name = "INVISIBLE" },
+                )
+            )
+
         }
 
     }

@@ -1,4 +1,4 @@
-package com.jass.eventservice.dto
+package com.jass.eventservice.dto.Request
 
 open class EventOrganizerDTO (
     open var organizerContacts: OrganizerContactsDTO,

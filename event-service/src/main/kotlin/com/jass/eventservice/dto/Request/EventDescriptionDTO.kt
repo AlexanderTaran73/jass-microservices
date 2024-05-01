@@ -1,6 +1,4 @@
-package com.jass.eventservice.dto
-
-import jakarta.persistence.Column
+package com.jass.eventservice.dto.Request
 
 class EventDescriptionDTO {
     var description_text: String? = null // max length 1000 TODO: check

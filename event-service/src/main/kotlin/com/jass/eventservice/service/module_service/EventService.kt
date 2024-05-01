@@ -1,6 +1,6 @@
 package com.jass.eventservice.service.module_service
 
-import com.jass.eventservice.dto.CreateEventRequest
+import com.jass.eventservice.dto.Request.CreateEventRequest
 import com.jass.eventservice.module.Event
 
 interface EventService {

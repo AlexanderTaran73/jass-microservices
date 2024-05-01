@@ -1,6 +1,6 @@
 package com.jass.eventservice.service.module_service
 
-import com.jass.eventservice.dto.CreateEventRequest
+import com.jass.eventservice.dto.Request.CreateEventRequest
 import com.jass.eventservice.module.*
 import com.jass.eventservice.repository.EventRepository
 import com.jass.eventservice.repository.type_dictionary_repository.*
@@ -45,6 +45,10 @@ class EventServiceImpl(
                     organizer.organizerRights = organizerRightsRepository.findByName(createEventRequest.owner?.organizerRights.toString())
                     organizer.organizerContacts = OrganizerContacts().also { contacts ->
                         contacts.email = createEventRequest.owner?.organizerContacts?.email
+                        contacts.phoneNumber = createEventRequest.owner?.organizerContacts?.phoneNumber
+                        contacts.website = createEventRequest.owner?.organizerContacts?.website
+                        contacts.telegram = createEventRequest.owner?.organizerContacts?.telegram
+                        contacts.another_contact = createEventRequest.owner?.organizerContacts?.another_contact
                     }
                 }
             )

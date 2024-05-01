@@ -1,6 +1,7 @@
 package com.jass.eventservice.controller
 
-import com.jass.eventservice.dto.CreateEventRequest
+import com.jass.eventservice.dto.EventResponse
+import com.jass.eventservice.dto.Request.CreateEventRequest
 import com.jass.eventservice.service.controller_service.EventsService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -17,4 +18,8 @@ class EventsController(
         return eventsService.create(id, createEventRequest)
     }
 
+    @GetMapping("/get/{id}")
+    fun get(@RequestHeader("User-Id") id: Int, @PathVariable("id") eventId: Int): ResponseEntity<EventResponse> {
+        return eventsService.get(id, eventId)
+    }
 }
