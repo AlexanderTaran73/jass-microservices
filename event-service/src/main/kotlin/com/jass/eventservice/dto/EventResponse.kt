@@ -26,6 +26,7 @@ class EventResponse {
 
     var possibilityOfEditing: String? = null
 
+//    TODO: add images
     fun eventToResponse(requesterId: Int, event: Event): EventResponse {
         this.id = event.id
         this.name = event.name
