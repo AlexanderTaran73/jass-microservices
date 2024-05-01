@@ -43,6 +43,13 @@ spring:
           filters:
             - name: AddEmailAndIdHeaderFilter
 
+        - id: event-service
+          uri: lb://event-service
+          predicates:
+            - Path=/api/v1/event/{*segments}
+          filters:
+            - name: AddEmailAndIdHeaderFilter
+
   main:
     web-application-type: REACTIVE
     allow-bean-definition-overriding: true

@@ -8,7 +8,7 @@ class EventType {
     @Id
     var id: Int = 0
 
-    @Column
+    @Column(unique = true)
     var name: String = ""
 //    Party,
 //    Celebration,

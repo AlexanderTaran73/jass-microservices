@@ -8,12 +8,10 @@ class OrganizerRights {
     @Id
     var id: Int = 0
 
-    @Column
+    @Column(unique = true)
     var name: String = ""
 //    OWNER,
 //    CO-OWNER,
 //    EDITOR,
 //    HELPER
-
-
 }

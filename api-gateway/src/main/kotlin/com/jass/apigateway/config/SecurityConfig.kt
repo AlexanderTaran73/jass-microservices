@@ -29,7 +29,8 @@ class SecurityConfig(
                     .pathMatchers(
                         "/api/v1/user/**",
                         "/api/v1/profile/**",
-                        "/api/v1/image/getImage/**"
+                        "/api/v1/image/getImage/**",
+                        "/api/v1/event/**",
                     ).hasAnyRole("USER", "ADMIN")
             }
             .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.HTTP_BASIC)

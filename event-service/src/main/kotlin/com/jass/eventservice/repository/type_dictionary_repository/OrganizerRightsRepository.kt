@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrganizerRightsRepository: JpaRepository<OrganizerRights, Int> {
 
-    fun findByName(name: String): List<OrganizerRights>
+    fun findByName(name: String): OrganizerRights?
 }

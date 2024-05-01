@@ -15,7 +15,7 @@ class DatabaseInitializer(
 ): CommandLineRunner {
     override fun run(vararg args: String?) {
 //        EventQuestionType
-        if (eventQuestionTypeRepository.count() < 4L) {
+        if (eventQuestionTypeRepository.count() < 2L) {
             eventQuestionTypeRepository.saveAll(
                 listOf(
                     EventQuestionType().also { it.id = 0; it.name = "CLOSED" },
@@ -39,7 +39,7 @@ class DatabaseInitializer(
 
 
 //        OrganizerRights
-        if (organizerRightsRepository.count() < 3L) {
+        if (organizerRightsRepository.count() < 4L) {
             organizerRightsRepository.saveAll(
                 listOf(
                     OrganizerRights().also { it.id = 0; it.name = "OWNER" },

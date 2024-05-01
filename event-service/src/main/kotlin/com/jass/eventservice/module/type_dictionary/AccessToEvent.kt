@@ -11,9 +11,9 @@ class AccessToEvent {
     @Id
     var id: Int = 0
 
-    @Column
+    @Column(unique = true)
     var name: String = ""
 //    Open,
-//    ByRequest,
+//    ByRequest, (default)
 //    ByPayment
 }
