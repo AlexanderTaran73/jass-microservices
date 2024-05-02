@@ -24,6 +24,8 @@ class EventResponse(
 
     var participants: MutableList<Participant>? = null
 
+    var participantsRequests: MutableList<Participant>? = null
+
     var questions: MutableList<EventQuestion> = mutableListOf()
 
     var rules: MutableList<EventRule> = mutableListOf()
@@ -51,6 +53,7 @@ class EventResponse(
             if (organizer.userId == requesterId) {
                 this.possibilityOfEditing = organizer.organizerRights!!.name
                 this.participants = event.participants
+                this.participantsRequests = event.participantsRequests
 
             }
         }
