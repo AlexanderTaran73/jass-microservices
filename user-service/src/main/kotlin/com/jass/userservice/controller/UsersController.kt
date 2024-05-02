@@ -23,11 +23,14 @@ class UsersController(
         return usersService.createUser(createUserRequest)
     }
 
-    @GetMapping("/getUsers/short/")
-    fun getUsersShort(@RequestParam email: List<String>): ResponseEntity<MutableList<ShortUserResponse?>> {
-        return usersService.getUsersShort(email)
+    @GetMapping("/getUsers/short/byEmail")
+    fun getUsersShortByEmail(@RequestParam email: List<String>): ResponseEntity<MutableList<ShortUserResponse?>> {
+        return usersService.getUsersShortByEmail(email)
     }
 
-
+    @GetMapping("/getUsers/short/byId")
+    fun getUsersShortById(@RequestParam id: List<Int>): ResponseEntity<MutableList<ShortUserResponse?>> {
+        return usersService.getUsersShortById(id)
+    }
 }
 

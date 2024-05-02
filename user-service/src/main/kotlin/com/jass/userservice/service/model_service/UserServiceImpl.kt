@@ -26,4 +26,8 @@ class UserServiceImpl(
     override fun findByEmail(email: String): User? {
         return userRepository.findByEmail(email)
     }
+
+    override fun findById(id: Int): User? {
+        return userRepository.findById(id).get()
+    }
 }

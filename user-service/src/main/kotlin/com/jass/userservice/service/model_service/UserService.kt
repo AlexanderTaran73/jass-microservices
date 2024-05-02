@@ -11,4 +11,6 @@ interface UserService {
     fun findAll(): List<User>
 
     fun findByEmail(email: String): User?
+
+    fun findById(id: Int): User?
 }

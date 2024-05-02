@@ -37,10 +37,20 @@ class UsersService(
         return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)
     }
 
-    fun getUsersShort(email: List<String>): ResponseEntity<MutableList<ShortUserResponse?>> {
+    fun getUsersShortByEmail(email: List<String>): ResponseEntity<MutableList<ShortUserResponse?>> {
         val users = mutableListOf<ShortUserResponse?>()
         email.forEach {
             val user = userService.findByEmail(it)
+            if (user == null) users.add(null)
+            else users.add(ShortUserResponse().userToShortUserResponse(user))
+        }
+        return ResponseEntity(users, HttpStatus.OK)
+    }
+
+    fun getUsersShortById(id: List<Int>): ResponseEntity<MutableList<ShortUserResponse?>> {
+        val users = mutableListOf<ShortUserResponse?>()
+        id.forEach {
+            val user = userService.findById(it)
             if (user == null) users.add(null)
             else users.add(ShortUserResponse().userToShortUserResponse(user))
         }
