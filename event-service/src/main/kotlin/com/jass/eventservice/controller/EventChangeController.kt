@@ -1,6 +1,7 @@
 package com.jass.eventservice.controller
 
 import com.jass.eventservice.dto.Request.EventDescriptionDTO
+import com.jass.eventservice.dto.Request.EventSettingsDTO
 import com.jass.eventservice.service.controller_service.EventChangeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,4 +20,18 @@ class EventChangeController(
         return eventChangeService.changEventDescription(id, eventId, description)
     }
 
+    @PatchMapping("/changEventName")
+    fun changEventName(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam name: String): ResponseEntity<HttpStatus> {
+        return eventChangeService.changEventName(id, eventId, name)
+    }
+
+    @PatchMapping("/changEventSettings")
+    fun changEventSettings(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody settings: EventSettingsDTO): ResponseEntity<HttpStatus> {
+        return eventChangeService.changEventSettings(id, eventId, settings)
+    }
+
+    @PatchMapping("/changEventType")
+    fun changEventType(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam type: String): ResponseEntity<HttpStatus> {
+        return eventChangeService.changEventType(id, eventId, type)
+    }
 }
