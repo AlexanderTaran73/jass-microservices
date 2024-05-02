@@ -9,7 +9,7 @@ interface EventService {
 
     fun save(event: Event)
 
-    fun findById(id: Int): Event
+    fun findById(id: Int): Event?
 
     fun findAll(): List<Event>
 

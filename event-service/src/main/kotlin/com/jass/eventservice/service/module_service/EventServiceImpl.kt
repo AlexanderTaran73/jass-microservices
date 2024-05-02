@@ -63,7 +63,7 @@ class EventServiceImpl(
         eventRepository.save(event)
     }
 
-    override fun findById(id: Int): Event {
+    override fun findById(id: Int): Event? {
         return eventRepository.findById(id).get()
     }
 

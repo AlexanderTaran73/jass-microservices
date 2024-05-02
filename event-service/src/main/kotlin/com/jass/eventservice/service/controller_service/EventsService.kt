@@ -24,11 +24,11 @@ class EventsService(
     }
 
     fun get(id: Int, eventId: Int): ResponseEntity<EventResponse> {
-        val event = eventService.findById(eventId)
+        val event = eventService.findById(eventId) ?: return ResponseEntity(null, HttpStatus.NOT_FOUND)
         if (event.eventSettings!!.eventVisibility!!.name == "PRIVATE" && !event.eventOrganizers.any{it.userId == id}) {
             return ResponseEntity(null, HttpStatus.BAD_REQUEST)
         }
-        return ResponseEntity(EventResponse().eventToResponse(id, eventService.findById(eventId)), HttpStatus.OK)
+        return ResponseEntity(EventResponse().eventToResponse(id, eventService.findById(eventId)!!), HttpStatus.OK)
     }
 
     fun getAll(id: Int): ResponseEntity<MutableList<EventResponse>> {
