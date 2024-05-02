@@ -1,5 +1,6 @@
 package com.jass.eventservice.service.controller_service
 
+import com.jass.eventservice.feign.UserService
 import com.jass.eventservice.module.Participant
 import com.jass.eventservice.service.module_service.EventService
 import org.springframework.http.HttpStatus
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class ParticipantsService(
-    private val eventService: EventService
+    private val eventService: EventService,
+    private val userService: UserService
 ) {
 
     fun participationRequest(id: Int, eventId: Int): ResponseEntity<HttpStatus> {
+        if (userService.getUsersShortById(listOf(id)).body!![0] == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
         val event = eventService.findById(eventId)!!.also { event ->
             event.participants.forEach { participant ->
                 if (participant.id == id) return ResponseEntity(HttpStatus.BAD_REQUEST)

@@ -61,7 +61,7 @@ class EventChangeService(
                 }
             }
         }
-        return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(HttpStatus.FORBIDDEN)
     }
 
     fun changEventSettings(id: Int, eventId: Int, settings: EventSettingsDTO): ResponseEntity<HttpStatus> {
@@ -89,7 +89,7 @@ class EventChangeService(
                 }
             }
         }
-        return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(HttpStatus.FORBIDDEN)
     }
 
     fun changEventType(id: Int, eventId: Int, type: String): ResponseEntity<HttpStatus> {
@@ -109,7 +109,7 @@ class EventChangeService(
                 }
             }
         }
-        return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(HttpStatus.FORBIDDEN)
     }
 
     fun addEventImage(id: Int, eventId: Int, imageFile: MultipartFile): ResponseEntity<HttpStatus> {
@@ -125,7 +125,7 @@ class EventChangeService(
                 }
             }
         }
-        return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(HttpStatus.FORBIDDEN)
     }
 
     fun deleteEventImage(id: Int, eventId: Int, fileName: String): ResponseEntity<HttpStatus> {
@@ -141,6 +141,6 @@ class EventChangeService(
                 }
             }
         }
-        return ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity(HttpStatus.FORBIDDEN)
     }
 }
