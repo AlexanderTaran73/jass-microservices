@@ -6,6 +6,7 @@ import com.jass.eventservice.service.controller_service.EventChangeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.net.http.HttpHeaders
 
 @RestController
@@ -34,4 +35,15 @@ class EventChangeController(
     fun changEventType(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam type: String): ResponseEntity<HttpStatus> {
         return eventChangeService.changEventType(id, eventId, type)
     }
+
+    @PostMapping("/addEventImage")
+    fun addEventImage(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int,  @RequestParam("imageFile") imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+        return eventChangeService.addEventImage(id, eventId, imageFile)
+    }
+
+    @DeleteMapping("/deleteEventImage")
+    fun deleteEventImage(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int,   @RequestParam fileName: String): ResponseEntity<HttpStatus> {
+        return eventChangeService.deleteEventImage(id, eventId, fileName)
+    }
+
 }

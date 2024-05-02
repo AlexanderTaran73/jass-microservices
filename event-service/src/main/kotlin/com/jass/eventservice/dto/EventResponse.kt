@@ -1,10 +1,14 @@
 package com.jass.eventservice.dto
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.jass.eventservice.module.*
+import com.jass.eventservice.feign.ImageService
 import com.jass.eventservice.module.type_dictionary.EventType
 import jakarta.persistence.*
 
-class EventResponse {
+class EventResponse(
+    @JsonIgnore private val imageService: ImageService
+) {
 
     var id: Int = 0
 
@@ -25,6 +29,9 @@ class EventResponse {
     var rules: MutableList<EventRule> = mutableListOf()
 
     var possibilityOfEditing: String? = null
+
+    var images: MutableList<String> = mutableListOf()
+
 
 //    TODO: add images
     fun eventToResponse(requesterId: Int, event: Event): EventResponse {
@@ -48,6 +55,15 @@ class EventResponse {
             }
         }
         if (possibilityOfEditing == null) this.possibilityOfEditing = "NONE"
+
+        try {
+            val imageList = imageService.getImageInfo("EventImage", id).body!!
+
+            imageList.forEach { image ->
+                images.add(image.fileName)
+            }
+        } catch (e: Exception) { }
+
         return this
     }
 }

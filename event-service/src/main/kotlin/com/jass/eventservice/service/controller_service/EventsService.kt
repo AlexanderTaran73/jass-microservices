@@ -2,6 +2,7 @@ package com.jass.eventservice.service.controller_service
 
 import com.jass.eventservice.dto.Request.CreateEventRequest
 import com.jass.eventservice.dto.EventResponse
+import com.jass.eventservice.feign.ImageService
 import com.jass.eventservice.service.module_service.EventService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -11,7 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @Service
 class EventsService(
-    private val eventService: EventService
+    private val eventService: EventService,
+    private val imageService: ImageService
 ) {
     fun create(id: Int, createEventRequest: CreateEventRequest): ResponseEntity<HttpHeaders> {
         val event = eventService.create(id, createEventRequest)
@@ -28,7 +30,7 @@ class EventsService(
         if (event.eventSettings!!.eventVisibility!!.name == "PRIVATE" && !event.eventOrganizers.any{it.userId == id}) {
             return ResponseEntity(null, HttpStatus.BAD_REQUEST)
         }
-        return ResponseEntity(EventResponse().eventToResponse(id, eventService.findById(eventId)!!), HttpStatus.OK)
+        return ResponseEntity(EventResponse(imageService).eventToResponse(id, eventService.findById(eventId)!!), HttpStatus.OK)
     }
 
     fun getAll(id: Int): ResponseEntity<MutableList<EventResponse>> {
@@ -36,7 +38,7 @@ class EventsService(
             mutableListOf<EventResponse>().apply {
                 eventService.findAll().forEach { event ->
                     if (event.eventSettings!!.eventVisibility!!.name == "PRIVATE" && !event.eventOrganizers.any{it.userId == id})
-                    else add(EventResponse().eventToResponse(id, event))
+                    else add(EventResponse(imageService).eventToResponse(id, event))
                 }
              }
             , HttpStatus.OK)
@@ -47,7 +49,7 @@ class EventsService(
             mutableListOf<EventResponse>().apply {
                 eventService.findByEventOrganizersUserId(organizerId).forEach { event ->
                     if (event.eventSettings!!.eventVisibility!!.name == "PRIVATE" && !event.eventOrganizers.any{it.userId == id})
-                    else add(EventResponse().eventToResponse(id, event))
+                    else add(EventResponse(imageService).eventToResponse(id, event))
                 }
             }
             , HttpStatus.OK)

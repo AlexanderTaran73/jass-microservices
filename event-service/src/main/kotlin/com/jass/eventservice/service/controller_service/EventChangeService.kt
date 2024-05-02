@@ -1,6 +1,7 @@
 package com.jass.eventservice.service.controller_service
 
 import com.jass.eventservice.dto.Request.*
+import com.jass.eventservice.feign.ImageService
 import com.jass.eventservice.repository.type_dictionary_repository.AccessToEventRepository
 import com.jass.eventservice.repository.type_dictionary_repository.EventTypeRepository
 import com.jass.eventservice.repository.type_dictionary_repository.EventVisibilityRepository
@@ -9,6 +10,7 @@ import com.jass.eventservice.service.module_service.EventService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.net.http.HttpHeaders
 
 @Service
@@ -17,7 +19,8 @@ class EventChangeService(
     private val eventVisibilityRepository: EventVisibilityRepository,
     private val accessToEventRepository: AccessToEventRepository,
     private val participantsVisibilityRepository: ParticipantsVisibilityRepository,
-    private val eventTypeRepository: EventTypeRepository
+    private val eventTypeRepository: EventTypeRepository,
+    private val imageService: ImageService
 ) {
     fun changEventDescription(id: Int, eventId: Int, description: EventDescriptionDTO): ResponseEntity<HttpStatus> {
         val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
@@ -103,6 +106,38 @@ class EventChangeService(
                     }
                     eventService.save(event)
                     return ResponseEntity(HttpStatus.CREATED)
+                }
+            }
+        }
+        return ResponseEntity(HttpStatus.BAD_REQUEST)
+    }
+
+    fun addEventImage(id: Int, eventId: Int, imageFile: MultipartFile): ResponseEntity<HttpStatus> {
+        val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        event.also { event ->
+            for (i in event.eventOrganizers) {
+                if (i.userId == id &&
+                    i.organizerRights!!.name == "OWNER" ||
+                    i.organizerRights!!.name == "CO-OWNER" ||
+                    i.organizerRights!!.name == "EDITOR"
+                ) {
+                    imageService.saveImage(imageFile, "EventImage", event.id)
+                }
+            }
+        }
+        return ResponseEntity(HttpStatus.BAD_REQUEST)
+    }
+
+    fun deleteEventImage(id: Int, eventId: Int, fileName: String): ResponseEntity<HttpStatus> {
+        val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        event.also { event ->
+            for (i in event.eventOrganizers) {
+                if (i.userId == id &&
+                    i.organizerRights!!.name == "OWNER" ||
+                    i.organizerRights!!.name == "CO-OWNER" ||
+                    i.organizerRights!!.name == "EDITOR"
+                ) {
+                    imageService.deleteImage(fileName)
                 }
             }
         }
