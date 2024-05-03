@@ -85,8 +85,8 @@ class ProfilesService(
             }, HttpStatus.OK)
     }
 
-    fun getProfileById(email: String, id: Int): ResponseEntity<Any> {
-        val requester = profileService.findByUserEmail(email) ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
+    fun getProfileById(email: String, id: Int): ResponseEntity<FullProfileResponse?> {
+        val requester = profileService.findByUserEmail(email) ?: return ResponseEntity(null, HttpStatus.BAD_REQUEST)
         return ResponseEntity(
             FullProfileResponse().also { fullProfile ->
                 profileService.findById(id)?.let { profile ->
