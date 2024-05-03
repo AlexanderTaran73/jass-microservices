@@ -1,6 +1,7 @@
 package com.jass.profileservice.controller
 
 
+import com.jass.profileservice.dto.full_profile.FullProfileResponse
 import com.jass.profileservice.dto.short_profile.ShortProfileResponse
 import com.jass.profileservice.service.controller_service.ProfilesService
 import org.springframework.http.ResponseEntity
@@ -34,7 +35,7 @@ class ProfilesController(
     }
 
     @GetMapping("/get/profile_by_id")
-    fun getProfileById(@RequestHeader("User-Email") email: String, @RequestParam id: Int): ResponseEntity<Any> {
+    fun getProfileById(@RequestHeader("User-Email") email: String, @RequestParam id: Int): ResponseEntity<FullProfileResponse?> {
         return profilesService.getProfileById(email, id)
     }
 }
