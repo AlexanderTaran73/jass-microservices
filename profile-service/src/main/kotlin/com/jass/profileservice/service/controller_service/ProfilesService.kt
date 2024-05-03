@@ -25,22 +25,7 @@ class ProfilesService(
     private val imageService: ImageService
 ) {
     fun createProfile(email: String, userId: Int): ResponseEntity<Any> {
-        val profile = profileService.findByUserEmail(email) ?: Profile().also { profile ->
-            profile.id = userId
-            profile.userEmail = email
-            profile.userName = email.split("@")[0]
-            profile.personal_info = PersonalInfo().also { personalInfo ->
-                personalInfo.gender = genderService.findByName("UNDEFINED")
-                personalInfo.residenceCountry = residenceCountryService.findByName("UNDEFINED")
-            }
-            profile.profile_settings = ProfileSettings().also { profileSettings ->
-                profileSettings.profileVisibility = profileVisibilityService.findByName("PUBLIC")
-                profileSettings.language = profileLanguageService.findByName("ENGLISH")
-                profileSettings.colorTheme = profileColorThemeService.findByName("LIGHT")
-            }
-        }
-
-        profileService.save(profile)
+        val profile = profileService.create(email, userId)
         return ResponseEntity(MyProfile(friendInviteService, imageService).profileToMyProfileResponse(profile),HttpStatus.CREATED)
     }
 

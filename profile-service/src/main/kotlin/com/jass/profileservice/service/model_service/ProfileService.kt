@@ -3,7 +3,9 @@ package com.jass.profileservice.service.model_service
 import com.jass.profileservice.module.Profile
 
 interface ProfileService {
-// TODO: create profile
+
+    fun create(email: String, userId: Int): Profile
+
     fun save(profile: Profile)
 
     fun delete(profile: Profile)
