@@ -22,15 +22,7 @@ class UsersService(
 
     fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<ShortUserResponse> {
         if (userService.findByEmail(createUserRequest.email) != null) return ResponseEntity(null, HttpStatus.BAD_REQUEST)
-        val user = User().also {
-            it.email = createUserRequest.email
-            it.password = createUserRequest.password
-            it.createdAt = LocalDateTime.now()
-
-            val userRole = userRoleService.findByName("ROLE_USER")!!
-            it.roles.add(userRole)
-        }
-        userService.save(user)
+        val user = userService.create(createUserRequest)
 //        Create Profile
         profileService.createProfile(createUserRequest.email, user.id)
 

@@ -1,9 +1,12 @@
 package com.jass.userservice.service.model_service
 
+import com.jass.userservice.dto.CreateUserRequest
 import com.jass.userservice.model.User
 
 interface UserService {
-//  TODO: create user
+
+    fun create(createUserRequest: CreateUserRequest): User
+
     fun save(user: User)
 
     fun delete(user: User)
