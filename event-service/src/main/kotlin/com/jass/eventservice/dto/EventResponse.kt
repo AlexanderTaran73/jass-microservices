@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.jass.eventservice.module.*
 import com.jass.eventservice.feign.ImageService
 import com.jass.eventservice.module.type_dictionary.EventType
-import jakarta.persistence.*
 
 class EventResponse(
     @JsonIgnore private val imageService: ImageService
@@ -34,8 +33,6 @@ class EventResponse(
 
     var images: MutableList<String> = mutableListOf()
 
-
-//    TODO: add images
     fun eventToResponse(requesterId: Int, event: Event): EventResponse {
         this.id = event.id
         this.name = event.name

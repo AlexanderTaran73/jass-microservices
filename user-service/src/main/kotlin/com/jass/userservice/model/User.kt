@@ -16,6 +16,7 @@ class User {
     @Column
     var password = ""
 
+//    TODO: move to authService
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable
     var roles: MutableList<UserRole> = mutableListOf()

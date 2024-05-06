@@ -20,7 +20,6 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeExchange { exchanges ->
                 exchanges
-//                    TODO: make settings
                     .pathMatchers("/api/v1/auth/**").permitAll()
                     .pathMatchers(
                         "/api/v1/user/admin/**",
