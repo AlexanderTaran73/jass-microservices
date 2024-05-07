@@ -11,17 +11,16 @@ import java.time.LocalDateTime
 @Transactional
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val userRoleService: UserRoleService
+    private val userAccountStatusService: UserAccountStatusService
 ): UserService {
 
     override fun create(createUserRequest: CreateUserRequest): User {
         val user = User().also {
             it.email = createUserRequest.email
-            it.password = createUserRequest.password
             it.createdAt = LocalDateTime.now()
 
-            val userRole = userRoleService.findByName("ROLE_USER")!!
-            it.roles.add(userRole)
+            it.status = userAccountStatusService.findById(0)!! // DEFAULT
+
         }
         save(user)
         return user

@@ -3,26 +3,30 @@ package com.jass.userservice.service.controller_service
 import com.jass.userservice.dto.CreateUserRequest
 import com.jass.userservice.dto.ShortUserResponse
 import com.jass.userservice.feign.ProfileService
-import com.jass.userservice.model.User
-import com.jass.userservice.service.model_service.UserRoleService
+import com.jass.userservice.service.model_service.UserAccountStatusService
 import com.jass.userservice.service.model_service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-
 
 @Service
 class UsersService(
     private val userService: UserService,
-    private val userRoleService: UserRoleService,
-    private val profileService: ProfileService
+    private val profileService: ProfileService,
+    private val userAccountStatusService: UserAccountStatusService
 ) {
 
 
     fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<ShortUserResponse> {
-        if (userService.findByEmail(createUserRequest.email) != null) return ResponseEntity(null, HttpStatus.BAD_REQUEST)
-        val user = userService.create(createUserRequest)
+        var user = userService.findByEmail(createUserRequest.email)
+        if (user != null){
+            if (user.status!!.id == 2 /*DELETED*/){
+                user.status = userAccountStatusService.findById(0)
+            }
+            else return ResponseEntity(null, HttpStatus.BAD_REQUEST)
+        }
+        else user = userService.create(createUserRequest)
+
 //        Create Profile
         profileService.createProfile(createUserRequest.email, user.id)
 

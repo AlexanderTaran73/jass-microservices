@@ -15,7 +15,4 @@ interface UserService {
 
     @GetMapping("/api/v1/user/getUsers/short/")
     fun getUsersShort(@RequestParam email: List<String>): ResponseEntity<List<ShortUserResponse?>>
-
-    @PatchMapping("/api/v1/user/changeUser/changePassword")
-    fun changePassword(@RequestParam email: String, @RequestParam password: String): ResponseEntity<ShortUserResponse>
 }

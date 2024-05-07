@@ -13,13 +13,9 @@ class User {
     @Column(unique = true)
     var email = ""
 
-    @Column
-    var password = ""
-
-//    TODO: move to authService
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable
-    var roles: MutableList<UserRole> = mutableListOf()
+    var status: UserAccountStatus? = null
 
     @Column
     var createdAt: LocalDateTime = LocalDateTime.now()

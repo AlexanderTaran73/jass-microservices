@@ -12,8 +12,4 @@ class ChangeUserController(
     private val changeUserService: ChangeUserService
 ) {
 
-    @PatchMapping("/changePassword")
-    fun changePassword(@RequestParam email: String, @RequestParam password: String): ResponseEntity<ShortUserResponse> {
-        return changeUserService.changePassword(email, password)
-    }
 }

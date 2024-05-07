@@ -6,9 +6,12 @@ import com.jass.authservice.dto.CreateUserRequest
 import com.jass.authservice.dto.RegistrationRequest
 import com.jass.authservice.feign.EmailService
 import com.jass.authservice.feign.UserService
+import com.jass.authservice.model.AuthUserData
 import com.jass.authservice.model.RegistrationData
+import com.jass.authservice.service.model_service.AuthUserDataService
 import com.jass.authservice.service.model_service.RegistrationDataService
 import com.jass.authservice.service.model_service.RegistrationDataServiceImpl
+import com.jass.authservice.service.model_service.UserRoleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -24,7 +27,9 @@ class RegistrationService(
     private val passwordEncoder: PasswordEncoder,
     private val jwtProvider: JwtProvider,
     private val emailService: EmailService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val authUserDataService: AuthUserDataService,
+    private val userRoleService: UserRoleService
     ) {
 
 
@@ -32,8 +37,10 @@ class RegistrationService(
     fun registration(registrationRequest: RegistrationRequest): ResponseEntity<Any> {
 
 //        Is email already registered
+        val authUserData = authUserDataService.findByEmail(registrationRequest.email)
+        if (authUserData != null) return ResponseEntity(HttpStatus.NOT_FOUND)
         val users = userService.getUsersShort(listOf(registrationRequest.email)).body
-        if (users!!.size > 0 && users[0] != null) return ResponseEntity(HttpStatus.NOT_FOUND)
+        if (users!!.size > 0 && (users[0] != null || users[0]!!.status!!.name != "DELETED")) return ResponseEntity(HttpStatus.NOT_FOUND)
 
         val registrationData = registrationDataService.findByEmail(registrationRequest.email) ?: RegistrationData()
         registrationData.also {
@@ -56,14 +63,26 @@ class RegistrationService(
         val registrationData = registrationDataService.findByEmail(email) ?: return ResponseEntity.notFound().build()
         if (registrationData.registration_token == token) {
 
+            var authUserData = authUserDataService.findByEmail(registrationData.email)
+            if (authUserData!=null) return ResponseEntity.badRequest().build()
+            authUserData = AuthUserData().also {
+                it.email = registrationData.email
+                it.password = registrationData.password
+                it.roles.add(userRoleService.findById(0)!!) // ROLE_USER
+            }
+
+            authUserDataService.save(authUserData)
+
             val shortUser = userService.createUser(CreateUserRequest(registrationData.email, registrationData.password)).body
             if (shortUser == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
             registrationDataService.delete(registrationData)
 
+
+
             return ResponseEntity(
                 AuthResponse(
-                    jwtProvider.generateAccessToken(shortUser.email, shortUser.id, shortUser.roles.map { it.name }),
-                    jwtProvider.generateRefreshToken(shortUser.email)
+                    jwtProvider.generateAccessToken(authUserData.email, authUserData.id, authUserData.roles.map { it.name }),
+                    jwtProvider.generateRefreshToken(authUserData.email)
                 ), HttpStatus.CREATED)
         }
         else {
