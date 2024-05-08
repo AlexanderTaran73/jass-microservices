@@ -12,7 +12,7 @@ class Event {
     var id: Int = 0
 
     @Column
-    var name: String? = null
+    var name: String? = null // max length = 100
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn

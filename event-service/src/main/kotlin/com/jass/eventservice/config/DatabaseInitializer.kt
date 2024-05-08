@@ -29,11 +29,11 @@ class DatabaseInitializer(
         if (eventTypeRepository.count() < 5L) {
             eventTypeRepository.saveAll(
                 listOf(
-                    EventType().also { it.id = 0; it.name = "Party" },
+                    EventType().also { it.id = 0; it.name = "Other" },
                     EventType().also { it.id = 1; it.name = "Celebration" },
                     EventType().also { it.id = 2; it.name = "Meeting" },
                     EventType().also { it.id = 3; it.name = "CorporateParty" },
-                    EventType().also { it.id = 4; it.name = "Other" },
+                    EventType().also { it.id = 4; it.name = "Party" },
                 )
             )
         }
@@ -55,9 +55,9 @@ class DatabaseInitializer(
         if (eventVisibilityRepository.count() < 3L) {
             eventVisibilityRepository.saveAll(
                 listOf(
-                    EventVisibility().also { it.id = 0; it.name = "Public" },
+                    EventVisibility().also { it.id = 0; it.name = "Closed" },
                     EventVisibility().also { it.id = 1; it.name = "OrganizerFriendsOnly" },
-                    EventVisibility().also { it.id = 2; it.name = "Closed" },
+                    EventVisibility().also { it.id = 2; it.name = "Public" },
                 )
             )
         }

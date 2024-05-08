@@ -30,19 +30,19 @@ class EventServiceImpl(
 
             event.eventSettings = EventSettings().also { settings ->
                 settings.eventVisibility = eventVisibilityRepository.findByName(createEventRequest.settings?.eventVisibility.toString())
-                    ?: eventVisibilityRepository.findByName("Closed")!!
+                    ?: eventVisibilityRepository.findById(0).get() // Closed
 
                 settings.accessToEvent = accessToEventRepository.findByName(createEventRequest.settings?.accessToEvent.toString())
-                    ?: accessToEventRepository.findByName("ByRequest")!!
+                    ?: accessToEventRepository.findById(0).get() // Open
 
                 settings.participantsVisibility = participantsVisibilityRepository.findByName(createEventRequest.settings?.participantsVisibility.toString())
-                    ?: participantsVisibilityRepository.findByName("VISIBLE")!!
+                    ?: participantsVisibilityRepository.findById(0).get() // VISIBLE
             }
 
             event.eventOrganizers.add(
                 EventOrganizer().also { organizer ->
                     organizer.userId = id
-                    organizer.organizerRights = organizerRightsRepository.findByName(createEventRequest.owner?.organizerRights.toString())
+                    organizer.organizerRights = organizerRightsRepository.findById(0).get() // OWNER
                     organizer.organizerContacts = OrganizerContacts().also { contacts ->
                         contacts.email = createEventRequest.owner?.organizerContacts?.email
                         contacts.phoneNumber = createEventRequest.owner?.organizerContacts?.phoneNumber
@@ -53,13 +53,16 @@ class EventServiceImpl(
                 }
             )
 
-            event.eventType = eventTypeRepository.findByName(createEventRequest.eventType.toString()) ?: eventTypeRepository.findByName("Other") // TODO: may be findById?
+            event.eventType = eventTypeRepository.findByName(createEventRequest.eventType.toString()) ?: eventTypeRepository.findById(0).get()  // Other
 
             eventRepository.save(event)
         }
     }
 
     override fun save(event: Event) {
+        // TODO: consider another limitation option
+        if(event.name!!.length > 100) throw Exception("Event name is too long")
+        if(event.eventDescription!!.description_text!!.length > 2000) throw Exception("Event description is too long")
         eventRepository.save(event)
     }
 

@@ -10,7 +10,7 @@ class EventDescription {
     var id: Int? = null
 
     @Column
-    var description_text: String? = null // TODO: set max length
+    var description_text: String? = null // max 2000 chars
 
     @Column
     var location: String? = null
