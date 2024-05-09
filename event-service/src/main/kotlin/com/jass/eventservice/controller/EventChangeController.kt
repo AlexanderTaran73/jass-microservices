@@ -1,6 +1,7 @@
 package com.jass.eventservice.controller
 
 import com.jass.eventservice.dto.Request.EventDescriptionDTO
+import com.jass.eventservice.dto.Request.EventRuleRequest
 import com.jass.eventservice.dto.Request.EventSettingsDTO
 import com.jass.eventservice.service.controller_service.EventChangeService
 import org.springframework.http.HttpStatus
@@ -36,6 +37,7 @@ class EventChangeController(
         return eventChangeService.changEventType(id, eventId, type)
     }
 
+//    EventImage
     @PostMapping("/addEventImage")
     fun addEventImage(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int,  @RequestParam("imageFile") imageFile: MultipartFile): ResponseEntity<HttpStatus> {
         return eventChangeService.addEventImage(id, eventId, imageFile)
@@ -46,4 +48,19 @@ class EventChangeController(
         return eventChangeService.deleteEventImage(id, eventId, fileName)
     }
 
+//    EventRule
+    @PostMapping("/addEventRule")
+    fun addEventRule(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody rule: EventRuleRequest): ResponseEntity<HttpStatus> {
+        return eventChangeService.addEventRule(id, eventId, rule)
+    }
+
+    @PatchMapping("/changeEventRule")
+    fun changeEventRule(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int,@RequestParam("ruleId") ruleId: Int, @RequestBody rule: EventRuleRequest): ResponseEntity<HttpStatus> {
+        return eventChangeService.changeEventRule(id, eventId,ruleId, rule)
+    }
+
+    @DeleteMapping("/deleteEventRule")
+    fun deleteEventRule(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("ruleId") ruleId: Int): ResponseEntity<HttpStatus> {
+        return eventChangeService.deleteEventRule(id, eventId, ruleId)
+    }
 }
