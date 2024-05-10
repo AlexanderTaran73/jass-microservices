@@ -11,17 +11,13 @@ class EventQuestion {
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int = 0
 
-    @Column
-    var question: String? = null
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn
+    var question: QuestionInfo? = null
 
-    @Column
-    var answer: String? = null
-
-    @Column
-    var askedId: Int? = null
-
-    @Column
-    var responderId: Int? = null
+    @OneToMany(cascade = [CascadeType.ALL])
+    @JoinColumn
+    var answers: MutableList<AnswerInfo> = mutableListOf()
 
     @ManyToOne
     @JoinColumn

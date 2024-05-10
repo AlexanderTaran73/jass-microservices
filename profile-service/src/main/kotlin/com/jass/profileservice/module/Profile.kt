@@ -26,4 +26,6 @@ class Profile {
     @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinTable
     var friends: MutableSet<Profile> = mutableSetOf()
+
+//    TODO: add posts
 }
