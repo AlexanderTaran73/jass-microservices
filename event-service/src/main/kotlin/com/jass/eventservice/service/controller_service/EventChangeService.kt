@@ -2,6 +2,7 @@ package com.jass.eventservice.service.controller_service
 
 import com.jass.eventservice.dto.Request.*
 import com.jass.eventservice.feign.ImageService
+import com.jass.eventservice.module.AnswerInfo
 import com.jass.eventservice.module.EventQuestion
 import com.jass.eventservice.module.EventRule
 import com.jass.eventservice.module.QuestionInfo
@@ -252,15 +253,75 @@ class EventChangeService(
         event.also { event ->
             event.questions.forEach {
                 if (it.id == questionId) {
-                    if (it.question!!.requesterId != id || it.type!!.id == 1 /* OPEN */) {
+                    if (it.question!!.requesterId != id || it.type!!.id == 1 || !event.eventOrganizers.any { organizer ->
+                        organizer.userId == id &&
+                                (organizer.organizerRights!!.name == "OWNER"
+                                || organizer.organizerRights!!.name == "CO-OWNER"
+                                || organizer.organizerRights!!.name == "EDITOR"
+                                || organizer.organizerRights!!.name == "HELPER")} /* OPEN */) {
                         return ResponseEntity(HttpStatus.FORBIDDEN)
                     }
-
+                    event.questions.remove(it)
                     eventService.save(event)
                     return ResponseEntity(HttpStatus.NO_CONTENT)
                 }
             }
             return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+
+    fun changeEventStatus(id: Int, eventId: Int, status: String, questionId: Int): ResponseEntity<HttpStatus> {
+        val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        event.also { event ->
+            for (i in event.eventOrganizers) {
+                if (i.userId == id &&
+                    i.organizerRights!!.name == "OWNER" ||
+                    i.organizerRights!!.name == "CO-OWNER" ||
+                    i.organizerRights!!.name == "EDITOR" ||
+                    i.organizerRights!!.name == "HELPER"
+                ) {
+                    event.questions.forEach {
+                        if (it.id == questionId) {
+                            it.type = eventQuestionTypeRepository.findByName(status)!!
+                            eventService.save(event)
+                            return ResponseEntity(HttpStatus.NO_CONTENT)
+                        }
+                    }
+                    return ResponseEntity(HttpStatus.NOT_FOUND)
+                }
+            }
+            return ResponseEntity(HttpStatus.FORBIDDEN)
+        }
+    }
+
+    fun answerEventQuestion(id: Int, eventId: Int, questionId: Int, answer: AnswerRequest): ResponseEntity<HttpStatus> {
+        val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        event.also { event ->
+            for (i in event.eventOrganizers) {
+                if (i.userId == id &&
+                    i.organizerRights!!.name == "OWNER" ||
+                    i.organizerRights!!.name == "CO-OWNER" ||
+                    i.organizerRights!!.name == "EDITOR" ||
+                    i.organizerRights!!.name == "HELPER"
+                ) {
+                    event.questions.forEach {
+                        if (it.id == questionId) {
+
+                            it.answers.add(AnswerInfo().also { answerInfo ->
+                                answerInfo.responderId = id
+                                answerInfo.text = answer.text
+                                answerInfo.last_updated = LocalDateTime.now().toString()
+                            })
+
+
+                            eventService.save(event)
+                            return ResponseEntity(HttpStatus.NO_CONTENT)
+                        }
+                    }
+                    return ResponseEntity(HttpStatus.NOT_FOUND)
+                }
+            }
+            return ResponseEntity(HttpStatus.FORBIDDEN)
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.jass.eventservice.controller
 
-import com.jass.eventservice.dto.Request.EventDescriptionDTO
-import com.jass.eventservice.dto.Request.EventRuleRequest
-import com.jass.eventservice.dto.Request.EventSettingsDTO
-import com.jass.eventservice.dto.Request.QuestionRequest
+import com.jass.eventservice.dto.Request.*
 import com.jass.eventservice.service.controller_service.EventChangeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -50,35 +47,45 @@ class EventChangeController(
     }
 
 //    EventRule
-    @PostMapping("/addEventRule")
+    @PostMapping("/rules/addEventRule")
     fun addEventRule(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody rule: EventRuleRequest): ResponseEntity<HttpStatus> {
         return eventChangeService.addEventRule(id, eventId, rule)
     }
 
-    @PatchMapping("/changeEventRule")
+    @PatchMapping("/rules/changeEventRule")
     fun changeEventRule(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int,@RequestParam("ruleId") ruleId: Int, @RequestBody rule: EventRuleRequest): ResponseEntity<HttpStatus> {
         return eventChangeService.changeEventRule(id, eventId,ruleId, rule)
     }
 
-    @DeleteMapping("/deleteEventRule")
+    @DeleteMapping("/rules/deleteEventRule")
     fun deleteEventRule(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("ruleId") ruleId: Int): ResponseEntity<HttpStatus> {
         return eventChangeService.deleteEventRule(id, eventId, ruleId)
     }
 
 //    EventQuestion
-    @PostMapping("/addEventQuestion")
+    @PostMapping("/questions/addEventQuestion")
     fun addEventQuestion(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody question: QuestionRequest): ResponseEntity<HttpStatus> {
         return eventChangeService.addEventQuestion(id, eventId, question)
     }
 
-    @PatchMapping("/changeEventQuestion")
+    @PatchMapping("/questions/changeEventQuestion")
     fun changeEventQuestion(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("questionId") questionId: Int, @RequestBody question: QuestionRequest): ResponseEntity<HttpStatus> {
         return eventChangeService.changeEventQuestion(id, eventId, questionId, question)
     }
 
-    @DeleteMapping("/deleteEventQuestion")
+    @DeleteMapping("/questions/deleteEventQuestion")
     fun deleteEventQuestion(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("questionId") questionId: Int): ResponseEntity<HttpStatus> {
         return eventChangeService.deleteEventQuestion(id, eventId, questionId)
+    }
+
+    @PatchMapping("/questions/changeEventStatus")
+    fun changeEventStatus(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("status") status: String, @RequestParam("questionId") questionId: Int): ResponseEntity<HttpStatus> {
+        return eventChangeService.changeEventStatus(id, eventId, status, questionId)
+    }
+
+    @PostMapping("/questions/answerEventQuestion")
+    fun answerEventQuestion(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("questionId") questionId: Int, @RequestBody answer: AnswerRequest): ResponseEntity<HttpStatus> {
+        return eventChangeService.answerEventQuestion(id, eventId, questionId, answer)
     }
 
 }

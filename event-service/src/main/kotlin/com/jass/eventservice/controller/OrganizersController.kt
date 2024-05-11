@@ -22,4 +22,6 @@ class OrganizersController(
     fun addOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody organizer: EventOrganizerDTO): ResponseEntity<HttpStatus> {
         return organizersService.addOrganizer(id, eventId, organizer)
     }
+
+//    TODO: deleteOrganizer
 }

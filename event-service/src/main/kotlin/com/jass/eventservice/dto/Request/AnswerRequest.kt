@@ -1,6 +1,6 @@
 package com.jass.eventservice.dto.Request
 
-class QuestionRequest {
-    var title: String = ""
+class AnswerRequest {
     var text: String = ""
+
 }
