@@ -44,6 +44,7 @@ class EventResponse(
         if (eventSettings!!.participantsVisibility!!.name == "VISIBLE") this.participants = event.participants
 
         this.questions = event.questions
+//        TODO: check status
         this.rules = event.rules
 
         event.eventOrganizers.forEach { organizer ->

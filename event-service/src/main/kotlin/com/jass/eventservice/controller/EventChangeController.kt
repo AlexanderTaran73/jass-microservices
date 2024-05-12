@@ -88,4 +88,9 @@ class EventChangeController(
         return eventChangeService.answerEventQuestion(id, eventId, questionId, answer)
     }
 
+    @PatchMapping("/questions/changeEventAnswer")
+    fun changeEventAnswer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int,@RequestParam("questionId") questionId: Int, @RequestParam("answerId") answerId: Int, @RequestBody answer: AnswerRequest): ResponseEntity<HttpStatus> {
+        return eventChangeService.changeEventAnswer(id, eventId, questionId, answerId, answer)
+    }
+
 }

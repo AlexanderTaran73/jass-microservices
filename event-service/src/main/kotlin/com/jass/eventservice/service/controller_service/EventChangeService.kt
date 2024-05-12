@@ -324,4 +324,26 @@ class EventChangeService(
             return ResponseEntity(HttpStatus.FORBIDDEN)
         }
     }
+
+    fun changeEventAnswer(id: Int, eventId: Int, questionId: Int, answerId: Int, answer: AnswerRequest): ResponseEntity<HttpStatus> {
+        val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        event.also { event ->
+            event.questions.forEach {
+                if (it.id == questionId) {
+                    it.answers.forEach {
+                        if (it.id == answerId) {
+                            if (it.responderId != id) {
+                                return ResponseEntity(HttpStatus.FORBIDDEN)
+                            }
+                            it.text = answer.text
+                            it.last_updated = LocalDateTime.now().toString()
+                            eventService.save(event)
+                            return ResponseEntity(HttpStatus.NO_CONTENT)
+                        }
+                    }
+                }
+            }
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
 }
