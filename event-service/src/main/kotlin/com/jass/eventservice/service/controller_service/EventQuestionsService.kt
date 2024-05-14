@@ -153,4 +153,25 @@ class EventQuestionsService(
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
+
+    fun deleteEventAnswer(id: Int, eventId: Int, questionId: Int, answerId: Int): ResponseEntity<HttpStatus> {
+        val event = eventService.findById(eventId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        event.also { event ->
+            event.questions.forEach { question ->
+                if (question.id == questionId) {
+                    question.answers.forEach {
+                        if (it.id == answerId) {
+                            if (it.responderId != id) {
+                                return ResponseEntity(HttpStatus.FORBIDDEN)
+                            }
+                            question.answers.remove(it)
+                            eventService.save(event)
+                            return ResponseEntity(HttpStatus.NO_CONTENT)
+                        }
+                    }
+                }
+            }
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
 }

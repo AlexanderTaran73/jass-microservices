@@ -42,4 +42,9 @@ class EventQuestionsController(
         return eventQuestionsService.changeEventAnswer(id, eventId, questionId, answerId, answer)
     }
 
+    @DeleteMapping("/deleteEventAnswer")
+    fun deleteEventAnswer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("questionId") questionId: Int, @RequestParam("answerId") answerId: Int): ResponseEntity<HttpStatus> {
+        return eventQuestionsService.deleteEventAnswer(id, eventId, questionId, answerId)
+    }
+
 }
