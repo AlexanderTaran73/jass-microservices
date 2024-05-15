@@ -48,8 +48,17 @@ class EventsService(
         return ResponseEntity(
             mutableListOf<EventResponse>().apply {
                 eventService.findByEventOrganizersUserId(organizerId).forEach { event ->
-                    if (event.eventSettings!!.eventVisibility!!.name == "PRIVATE" && !event.eventOrganizers.any{it.userId == id})
-                    else add(EventResponse(imageService).eventToResponse(id, event))
+                    add(EventResponse(imageService).eventToResponse(id, event))
+                }
+            }
+            , HttpStatus.OK)
+    }
+
+    fun getAllByParticipant(id: Int, participantId: Int): ResponseEntity<MutableList<EventResponse>> {
+        return ResponseEntity(
+            mutableListOf<EventResponse>().apply {
+                eventService.findAllByParticipantsUserId(participantId).forEach { event ->
+                    add(EventResponse(imageService).eventToResponse(id, event))
                 }
             }
             , HttpStatus.OK)

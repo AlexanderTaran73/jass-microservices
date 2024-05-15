@@ -17,6 +17,8 @@ interface EventService {
 
     fun findByEventOrganizersUserId(userId: Int): List<Event>
 
+    fun findAllByParticipantsUserId(userId: Int): List<Event>
+
     fun deleteById(id: Int)
 
     fun deleteByIdNotIn(id: List<Int>)

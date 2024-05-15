@@ -32,4 +32,9 @@ class EventsController(
     fun getAllByOrganizer(@RequestHeader("User-Id") id: Int, @PathVariable("id") organizerId: Int): ResponseEntity<MutableList<EventResponse>> {
         return eventsService.getAllByOrganizer(id, organizerId)
     }
+
+    @GetMapping("/get/all/byParticipant/{id}")
+    fun getAllByParticipant(@RequestHeader("User-Id") id: Int, @PathVariable("id") participantId: Int): ResponseEntity<MutableList<EventResponse>> {
+        return eventsService.getAllByParticipant(id, participantId)
+    }
 }

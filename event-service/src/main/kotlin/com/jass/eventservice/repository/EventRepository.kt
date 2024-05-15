@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository
 interface EventRepository: JpaRepository<Event, Int> {
     fun findByEventOrganizersUserId(userId: Int): List<Event>
 
+    fun findAllByParticipantsUserId(userId: Int): List<Event>
+
     fun deleteByIdNotIn(id: List<Int>)
 }

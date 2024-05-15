@@ -82,6 +82,11 @@ class EventServiceImpl(
         return eventRepository.findByEventOrganizersUserId(userId)
     }
 
+    override fun findAllByParticipantsUserId(userId: Int): List<Event>{
+        return eventRepository.findAllByParticipantsUserId(userId)
+    }
+
+
     override fun deleteById(id: Int) {
         eventRepository.deleteById(id)
     }
