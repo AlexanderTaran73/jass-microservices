@@ -41,7 +41,7 @@ class Event {
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn
     var questions: MutableList<EventQuestion> = mutableListOf()
-//    TODO: add controller
+
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn
     var rules: MutableList<EventRule> = mutableListOf()

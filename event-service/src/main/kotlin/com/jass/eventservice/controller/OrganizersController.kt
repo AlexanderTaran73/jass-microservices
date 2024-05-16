@@ -23,5 +23,13 @@ class OrganizersController(
         return organizersService.addOrganizer(id, eventId, organizer)
     }
 
-//    TODO: deleteOrganizer
+    @PatchMapping("/changeOrganizer")
+    fun changeOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody organizer: EventOrganizerDTO): ResponseEntity<HttpStatus> {
+        return organizersService.changeOrganizer(id, eventId, organizer)
+    }
+//      TODO: add delete
+//    @DeleteMapping("/deleteOrganizer")
+//    fun deleteOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("organizerId") participantId: Int): ResponseEntity<HttpStatus> {
+//
+//    }
 }
