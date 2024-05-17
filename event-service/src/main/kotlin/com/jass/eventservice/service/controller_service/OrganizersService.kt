@@ -89,7 +89,6 @@ class OrganizersService(
     }
 
     fun changeOrganizer(id: Int, eventId: Int, changeOrganizer: EventOrganizerDTO): ResponseEntity<HttpStatus> {
-        if (userService.getUsersShortById(listOf(changeOrganizer.userId)).body!![0] == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
         if (id == changeOrganizer.userId) return ResponseEntity(HttpStatus.BAD_REQUEST)
         if (changeOrganizer.organizerRights == "OWNER") return ResponseEntity(HttpStatus.BAD_REQUEST)
         eventService.findById(eventId)?.also { event ->
@@ -117,9 +116,36 @@ class OrganizersService(
                                     organizerActivityTypeRepository.save(orgAtcType)
                                 }
                             }
+                            eventService.save(event)
+                            return ResponseEntity(HttpStatus.NO_CONTENT)
                         }
-                        eventService.save(event)
-                        return ResponseEntity(HttpStatus.NO_CONTENT)
+                    }
+                    return ResponseEntity(HttpStatus.BAD_REQUEST)
+                }
+            }
+            return ResponseEntity(HttpStatus.FORBIDDEN)
+        }
+        return ResponseEntity(HttpStatus.BAD_REQUEST)
+    }
+
+    fun deleteOrganizer(id: Int, eventId: Int, organizerId: Int): ResponseEntity<HttpStatus> {
+        if (id == organizerId) return ResponseEntity(HttpStatus.BAD_REQUEST)
+        eventService.findById(eventId)?.also { event ->
+
+            for (i in event.eventOrganizers) {
+                if (i.userId == id &&
+                    i.organizerRights!!.name == "OWNER" ||
+                    i.organizerRights!!.name == "CO-OWNER"
+                ) {
+
+                    event.eventOrganizers.forEach { organizer ->
+                        if (organizer.userId == organizerId) {
+                            if (organizer.organizerRights!!.name == "OWNER" ||
+                                (organizer.organizerRights!!.name == "CO-OWNER" && i.organizerRights!!.name != "OWNER")) return ResponseEntity(HttpStatus.FORBIDDEN)
+                            event.eventOrganizers.remove(organizer)
+                            eventService.save(event)
+                            return ResponseEntity(HttpStatus.NO_CONTENT)
+                        }
                     }
                     return ResponseEntity(HttpStatus.BAD_REQUEST)
                 }

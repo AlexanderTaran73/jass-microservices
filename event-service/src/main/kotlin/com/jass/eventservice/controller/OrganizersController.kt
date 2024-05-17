@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*
 class OrganizersController(
     private val organizersService: OrganizersService
 ) {
-
-
     @PatchMapping("/confirmParticipation")
     fun confirmParticipation(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("participantId") participantId: Int): ResponseEntity<HttpStatus> {
         return organizersService.confirmParticipation(id, eventId, participantId)
@@ -27,9 +25,8 @@ class OrganizersController(
     fun changeOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestBody organizer: EventOrganizerDTO): ResponseEntity<HttpStatus> {
         return organizersService.changeOrganizer(id, eventId, organizer)
     }
-//      TODO: add delete
-//    @DeleteMapping("/deleteOrganizer")
-//    fun deleteOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("organizerId") participantId: Int): ResponseEntity<HttpStatus> {
-//
-//    }
+    @DeleteMapping("/deleteOrganizer")
+    fun deleteOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("organizerId") organizerId: Int): ResponseEntity<HttpStatus> {
+        return organizersService.deleteOrganizer(id, eventId, organizerId)
+    }
 }
