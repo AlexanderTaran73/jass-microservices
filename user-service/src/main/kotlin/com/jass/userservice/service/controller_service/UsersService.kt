@@ -28,6 +28,7 @@ class UsersService(
         else user = userService.create(createUserRequest)
 
 //        Create Profile
+//        TODO: verify profile response
         profileService.createProfile(createUserRequest.email, user.id)
 
         return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)

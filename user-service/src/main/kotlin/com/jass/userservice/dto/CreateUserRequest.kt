@@ -1,6 +1,6 @@
 package com.jass.userservice.dto
 
-class CreateUserRequest (
+data class CreateUserRequest (
     val email: String
 )
 
