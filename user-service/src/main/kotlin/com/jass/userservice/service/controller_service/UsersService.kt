@@ -16,20 +16,19 @@ class UsersService(
     private val userAccountStatusService: UserAccountStatusService
 ) {
 
-
+//  TODO: change response to empty body
     fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<ShortUserResponse> {
         var user = userService.findByEmail(createUserRequest.email)
         if (user != null){
             if (user.status!!.id == 2 /*DELETED*/){
                 user.status = userAccountStatusService.findById(0)
             }
-            else return ResponseEntity(null, HttpStatus.BAD_REQUEST)
+            else return ResponseEntity(null, HttpStatus.CONFLICT)
         }
         else user = userService.create(createUserRequest)
 
 //        Create Profile
-//        TODO: verify profile response
-        profileService.createProfile(createUserRequest.email, user.id)
+        if (profileService.createProfile(createUserRequest.email, user.id).statusCode != HttpStatus.CREATED) return ResponseEntity(null, HttpStatus.CONFLICT)
 
         return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)
     }

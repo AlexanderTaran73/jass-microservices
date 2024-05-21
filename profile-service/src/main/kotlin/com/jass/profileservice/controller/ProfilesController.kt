@@ -4,6 +4,7 @@ package com.jass.profileservice.controller
 import com.jass.profileservice.dto.full_profile.FullProfileResponse
 import com.jass.profileservice.dto.short_profile.ShortProfileResponse
 import com.jass.profileservice.service.controller_service.ProfilesService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -15,7 +16,7 @@ class ProfilesController(
 ) {
 
     @PostMapping("/create")
-    fun createProfile(@RequestParam email: String, @RequestParam userId: Int): ResponseEntity<Any> {
+    fun createProfile(@RequestParam email: String, @RequestParam userId: Int): ResponseEntity<HttpStatus> {
         return profilesService.createProfile(email, userId)
     }
 

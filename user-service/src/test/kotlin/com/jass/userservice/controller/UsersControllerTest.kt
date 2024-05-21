@@ -68,8 +68,7 @@ class UsersControllerTest {
         every { userService.findByEmail(any()) } returns null
         every { userService.create(any()) } returns user
         every { userAccountStatusService.findById(0) } returns UserAccountStatus().apply { id = 0; name = "ACTIVE" }
-//        TODO: change profile response
-        every { profileService.createProfile(any(), any()) } returns ResponseEntity(null, HttpStatus.CREATED)
+        every { profileService.createProfile(any(), any()) } returns ResponseEntity(HttpStatus.CREATED)
 
         mockMvc.perform(
             post("/api/v1/user/create")
@@ -99,8 +98,8 @@ class UsersControllerTest {
         }
         every { userService.findByEmail(any()) } returns user
         every { userAccountStatusService.findById(0) } returns UserAccountStatus().apply { id = 0; name = "ACTIVE" }
-//        TODO: change profile response
-        every { profileService.createProfile(any(), any()) } returns ResponseEntity(null, HttpStatus.CREATED)
+        every { profileService.createProfile(any(), any()) } returns ResponseEntity(HttpStatus.CREATED)
+
 
         mockMvc.perform(
             post("/api/v1/user/create")

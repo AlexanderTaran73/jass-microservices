@@ -12,21 +12,25 @@ import com.jass.profileservice.service.model_service.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @Service
 class ProfilesService(
     private val profileService: ProfileService,
-    private val genderService: GenderService,
-    private val profileColorThemeService: ProfileColorThemeService,
-    private val profileLanguageService: ProfileLanguageService,
-    private val profileVisibilityService: ProfileVisibilityService,
-    private val residenceCountryService: ResidenceCountryService,
     private val friendInviteService: FriendInviteService,
     private val imageService: ImageService
 ) {
-    fun createProfile(email: String, userId: Int): ResponseEntity<Any> {
+//  TODO: change response to empty body
+    fun createProfile(email: String, userId: Int): ResponseEntity<HttpStatus> {
+        if (profileService.findByUserEmail(email) != null) return ResponseEntity.status(HttpStatus.CONFLICT).build()
         val profile = profileService.create(email, userId)
-        return ResponseEntity(MyProfile(friendInviteService, imageService).profileToMyProfileResponse(profile),HttpStatus.CREATED)
+        return ResponseEntity.created(
+            ServletUriComponentsBuilder.fromCurrentRequest()
+            .replacePath("/api/v1/profile/get/my_profile")
+            .pathSegment()
+            .buildAndExpand()
+            .toUri())
+            .build()
     }
 
 
