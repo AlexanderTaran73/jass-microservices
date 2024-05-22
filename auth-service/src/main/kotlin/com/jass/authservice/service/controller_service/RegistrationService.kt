@@ -73,8 +73,8 @@ class RegistrationService(
 
             authUserDataService.save(authUserData)
 
-            val shortUser = userService.createUser(CreateUserRequest(registrationData.email, registrationData.password)).body
-            if (shortUser == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
+
+            if (userService.createUser(CreateUserRequest(registrationData.email, registrationData.password)).statusCode != HttpStatus.CREATED) return ResponseEntity(HttpStatus.BAD_REQUEST)
             registrationDataService.delete(registrationData)
 
 

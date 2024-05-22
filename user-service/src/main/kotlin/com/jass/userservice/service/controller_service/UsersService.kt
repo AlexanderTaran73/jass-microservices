@@ -8,6 +8,7 @@ import com.jass.userservice.service.model_service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @Service
 class UsersService(
@@ -16,8 +17,8 @@ class UsersService(
     private val userAccountStatusService: UserAccountStatusService
 ) {
 
-//  TODO: change response to empty body
-    fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<ShortUserResponse> {
+
+    fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<HttpStatus> {
         var user = userService.findByEmail(createUserRequest.email)
         if (user != null){
             if (user.status!!.id == 2 /*DELETED*/){
@@ -30,7 +31,13 @@ class UsersService(
 //        Create Profile
         if (profileService.createProfile(createUserRequest.email, user.id).statusCode != HttpStatus.CREATED) return ResponseEntity(null, HttpStatus.CONFLICT)
 
-        return ResponseEntity(ShortUserResponse().userToShortUserResponse(user), HttpStatus.CREATED)
+        return ResponseEntity.created(
+            ServletUriComponentsBuilder.fromCurrentRequest()
+            .replacePath("/api/v1/user/getUsers/short/byId?id=")
+            .pathSegment("{id}")
+            .buildAndExpand(user.id)
+            .toUri())
+            .build();
     }
 
     fun getUsersShortByEmail(email: List<String>): ResponseEntity<MutableList<ShortUserResponse?>> {

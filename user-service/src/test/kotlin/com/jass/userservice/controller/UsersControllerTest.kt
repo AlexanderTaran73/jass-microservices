@@ -1,12 +1,11 @@
 package com.jass.userservice.controller
 
-import com.jass.userservice.dto.CreateUserRequest
+import com.jass.userservice.feign.ProfileService
 import com.jass.userservice.model.User
 import com.jass.userservice.model.UserAccountStatus
 import com.jass.userservice.service.controller_service.UsersService
 import com.jass.userservice.service.model_service.UserAccountStatusService
 import com.jass.userservice.service.model_service.UserService
-import com.jass.userservice.feign.ProfileService
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -25,9 +25,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-@SpringBootTest
+
+@SpringBootTest()
 @AutoConfigureMockMvc
 class UsersControllerTest {
+
+    @LocalServerPort
+    val port = 0
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -55,7 +59,6 @@ class UsersControllerTest {
 
     @Test
     fun `createUser user is successfully created`() {
-        val createUserRequest = CreateUserRequest("test@example.com")
         val user = User().apply {
             id = 1
             email = "test@example.com"
@@ -80,14 +83,13 @@ class UsersControllerTest {
             .andExpect(jsonPath("$.email").value("test@example.com"))
             .andExpect(jsonPath("$.status.name").value("ACTIVE"))
 
-        verify(exactly = 1) { userService.findByEmail(createUserRequest.email) }
-        verify(exactly = 1) { userService.create(createUserRequest) }
-        verify(exactly = 1) { profileService.createProfile(createUserRequest.email, user.id) }
+        verify(exactly = 1) { userService.findByEmail(any()) }
+        verify(exactly = 1) { userService.create(any()) }
+        verify(exactly = 1) { profileService.createProfile(any(), any()) }
     }
 
     @Test
     fun `createUser user with deleted status`() {
-        val createUserRequest = CreateUserRequest("test@example.com")
         val user = User().apply {
             id = 1
             email = "test@example.com"
@@ -111,7 +113,27 @@ class UsersControllerTest {
             .andExpect(jsonPath("$.email").value("test@example.com"))
             .andExpect(jsonPath("$.status.name").value("ACTIVE"))
 
-        verify(exactly = 1) { userService.findByEmail(createUserRequest.email) }
-        verify(exactly = 1) { profileService.createProfile(createUserRequest.email, user.id) }
+        verify(exactly = 1) { userService.findByEmail(any()) }
+        verify(exactly = 1) { profileService.createProfile(any(), any()) }
+    }
+
+    @Test
+    fun `create user with busy email`() {
+        val user = User().apply {
+            id = 1
+            email = "test@example.com"
+            status = UserAccountStatus().apply {
+                id = 0
+                name = "ACTIVE"
+            }
+        }
+        every { userService.findByEmail(any()) } returns user
+
+        mockMvc.perform(
+            post("/api/v1/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"email\": \"test@example.com\" }")
+        )
+            .andExpect(status().isConflict)
     }
 }

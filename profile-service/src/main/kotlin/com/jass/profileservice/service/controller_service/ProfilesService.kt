@@ -20,7 +20,6 @@ class ProfilesService(
     private val friendInviteService: FriendInviteService,
     private val imageService: ImageService
 ) {
-//  TODO: change response to empty body
     fun createProfile(email: String, userId: Int): ResponseEntity<HttpStatus> {
         if (profileService.findByUserEmail(email) != null) return ResponseEntity.status(HttpStatus.CONFLICT).build()
         val profile = profileService.create(email, userId)

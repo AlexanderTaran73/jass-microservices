@@ -3,6 +3,7 @@ package com.jass.userservice.controller
 import com.jass.userservice.dto.CreateUserRequest
 import com.jass.userservice.dto.ShortUserResponse
 import com.jass.userservice.service.controller_service.UsersService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,7 +20,7 @@ class UsersController(
 ) {
 
     @PostMapping("/create")
-    fun createUser(@RequestBody createUserRequest: CreateUserRequest): ResponseEntity<ShortUserResponse> {
+    fun createUser(@RequestBody createUserRequest: CreateUserRequest): ResponseEntity<HttpStatus> {
         return usersService.createUser(createUserRequest)
     }
 
