@@ -33,8 +33,8 @@ class UsersService(
 
         return ResponseEntity.created(
             ServletUriComponentsBuilder.fromCurrentRequest()
-            .replacePath("/api/v1/user/getUsers/short/byId?id=")
-            .pathSegment("{id}")
+            .replacePath("/api/v1/user/getUsers/short")
+            .pathSegment("byId?id={id}")
             .buildAndExpand(user.id)
             .toUri())
             .build();

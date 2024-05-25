@@ -71,12 +71,10 @@ class RegistrationService(
                 it.roles.add(userRoleService.findById(0)!!) // ROLE_USER
             }
 
-            authUserDataService.save(authUserData)
-
-
             if (userService.createUser(CreateUserRequest(registrationData.email, registrationData.password)).statusCode != HttpStatus.CREATED) return ResponseEntity(HttpStatus.BAD_REQUEST)
             registrationDataService.delete(registrationData)
 
+            authUserDataService.save(authUserData)
 
 
             return ResponseEntity(
