@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.lifecycle.Startables
 
+//TODO: move to other place
 class TestContainersExtension: BeforeAllCallback {
     override fun beforeAll(p0: ExtensionContext?) {
         println("TestContainersExtension init")
