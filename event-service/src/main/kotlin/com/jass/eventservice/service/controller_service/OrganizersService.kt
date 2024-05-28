@@ -1,5 +1,6 @@
 package com.jass.eventservice.service.controller_service
 
+import com.jass.eventservice.dto.EventTokenResponse
 import com.jass.eventservice.dto.Request.EventOrganizerDTO
 import com.jass.eventservice.feign.UserService
 import com.jass.eventservice.module.EventOrganizer
@@ -9,6 +10,7 @@ import com.jass.eventservice.module.Participant
 import com.jass.eventservice.repository.OrganizerActivityTypeRepository
 import com.jass.eventservice.repository.type_dictionary_repository.OrganizerRightsRepository
 import com.jass.eventservice.service.module_service.EventService
+import com.jass.eventservice.utils.JwtProvider
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -18,7 +20,8 @@ class OrganizersService(
     private val eventService: EventService,
     private val userService: UserService,
     private val organizerRightsRepository: OrganizerRightsRepository,
-    private val organizerActivityTypeRepository: OrganizerActivityTypeRepository
+    private val organizerActivityTypeRepository: OrganizerActivityTypeRepository,
+    private val jwtProvider: JwtProvider
 ) {
 
     fun confirmParticipation(id: Int, eventId: Int, participantId: Int): ResponseEntity<HttpStatus> {
@@ -153,6 +156,21 @@ class OrganizersService(
             return ResponseEntity(HttpStatus.FORBIDDEN)
         }
         return ResponseEntity(HttpStatus.BAD_REQUEST)
+    }
+
+    fun getEventToken(id: Int, eventId: Int): ResponseEntity<EventTokenResponse> {
+        eventService.findById(eventId)?.also { event ->
+            for (i in event.eventOrganizers) {
+                if (i.userId == id &&
+                    i.organizerRights!!.name == "OWNER" ||
+                    i.organizerRights!!.name == "CO-OWNER" ||
+                    i.organizerRights!!.name == "EDITOR"
+                ) {
+                    return ResponseEntity(EventTokenResponse().also { it.token = JwtProvider().generateEventToken(eventId, "NORMAL_EVENT_TOKEN") }, HttpStatus.OK)
+                }
+            }
+        }
+        return ResponseEntity(HttpStatus.FORBIDDEN)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.jass.eventservice.controller
 
+import com.jass.eventservice.dto.EventTokenResponse
 import com.jass.eventservice.dto.Request.EventOrganizerDTO
 import com.jass.eventservice.service.controller_service.OrganizersService
 import org.springframework.http.HttpStatus
@@ -28,5 +29,10 @@ class OrganizersController(
     @DeleteMapping("/deleteOrganizer")
     fun deleteOrganizer(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam("organizerId") organizerId: Int): ResponseEntity<HttpStatus> {
         return organizersService.deleteOrganizer(id, eventId, organizerId)
+    }
+
+    @GetMapping("/getEventToken")
+    fun getEventToken(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int): ResponseEntity<EventTokenResponse> {
+        return organizersService.getEventToken(id, eventId)
     }
 }

@@ -17,6 +17,8 @@ repositories {
 dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation("javax.xml.bind:jaxb-api:2.3.0-b170201.1204")
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.postgresql:postgresql")
