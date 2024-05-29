@@ -1,6 +1,7 @@
 package com.jass.eventservice.service.controller_service
 
 import com.jass.eventservice.dto.EventTokenResponse
+import com.jass.eventservice.dto.EventTokenType
 import com.jass.eventservice.dto.Request.EventOrganizerDTO
 import com.jass.eventservice.feign.UserService
 import com.jass.eventservice.module.EventOrganizer
@@ -158,7 +159,7 @@ class OrganizersService(
         return ResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
-    fun getEventToken(id: Int, eventId: Int): ResponseEntity<EventTokenResponse> {
+    fun getEventToken(id: Int, eventId: Int, tokenType: String): ResponseEntity<EventTokenResponse> {
         eventService.findById(eventId)?.also { event ->
             for (i in event.eventOrganizers) {
                 if (i.userId == id &&
@@ -166,7 +167,14 @@ class OrganizersService(
                     i.organizerRights!!.name == "CO-OWNER" ||
                     i.organizerRights!!.name == "EDITOR"
                 ) {
-                    return ResponseEntity(EventTokenResponse().also { it.token = JwtProvider().generateEventToken(eventId, "NORMAL_EVENT_TOKEN") }, HttpStatus.OK)
+                    return ResponseEntity(EventTokenResponse().also { it.token = JwtProvider().generateEventToken(eventId,
+                            when(tokenType) {
+                                "VIEW_ONLY" -> EventTokenType.VIEW_ONLY.name
+                                "INVITATION_FROM_ORGANIZER" ->  EventTokenType.INVITATION_FROM_ORGANIZER.name
+                                "INVITATION_FROM_PARTICIPANT" -> EventTokenType.INVITATION_FROM_PARTICIPANT.name
+                                else -> EventTokenType.VIEW_ONLY.name
+                            }
+                        ) }, HttpStatus.OK)
                 }
             }
         }

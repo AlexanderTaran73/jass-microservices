@@ -32,7 +32,7 @@ class OrganizersController(
     }
 
     @GetMapping("/getEventToken")
-    fun getEventToken(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int): ResponseEntity<EventTokenResponse> {
-        return organizersService.getEventToken(id, eventId)
+    fun getEventToken(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int, @RequestParam tokenType: String): ResponseEntity<EventTokenResponse> {
+        return organizersService.getEventToken(id, eventId, tokenType)
     }
 }
