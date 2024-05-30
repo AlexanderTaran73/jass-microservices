@@ -65,6 +65,8 @@ class EventResponse(
             }
         } catch (e: Exception) { }
 
+//        TODO: add check if user is participant
+
         return this
     }
 }
