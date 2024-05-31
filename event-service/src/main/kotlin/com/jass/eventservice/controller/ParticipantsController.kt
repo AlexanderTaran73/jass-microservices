@@ -21,10 +21,4 @@ class ParticipantsController(
     fun cancelParticipationRequest(@RequestHeader("User-Id") id: Int, @RequestParam("eventId") eventId: Int): ResponseEntity<HttpStatus> {
         return participantsService.cancelParticipationRequest(id, eventId)
     }
-
-    @GetMapping("/apply_event_token")
-    fun applyEventToken(@RequestHeader("User-Id") id: Int,  @RequestHeader("Event-Token") eventToken: String): ResponseEntity<HttpStatus> {
-        return participantsService.applyEventToken(id, eventToken)
-    }
-
 }

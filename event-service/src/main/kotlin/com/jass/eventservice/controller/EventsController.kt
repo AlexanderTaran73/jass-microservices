@@ -4,6 +4,7 @@ import com.jass.eventservice.dto.EventResponse
 import com.jass.eventservice.dto.Request.CreateEventRequest
 import com.jass.eventservice.service.controller_service.EventsService
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -36,5 +37,10 @@ class EventsController(
     @GetMapping("/get/all/byParticipant/{id}")
     fun getAllByParticipant(@RequestHeader("User-Id") id: Int, @PathVariable("id") participantId: Int): ResponseEntity<MutableList<EventResponse>> {
         return eventsService.getAllByParticipant(id, participantId)
+    }
+
+    @GetMapping("/apply_event_token")
+    fun applyEventToken(@RequestHeader("User-Id") id: Int,  @RequestHeader("Event-Token") eventToken: String): ResponseEntity<Any> {
+        return eventsService.applyEventToken(id, eventToken)
     }
 }

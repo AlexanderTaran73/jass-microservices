@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class ParticipantsService(
     private val eventService: EventService,
     private val userService: UserService,
-    private val jwtProvider: JwtProvider
+
 ) {
 
     fun participationRequest(id: Int, eventId: Int): ResponseEntity<HttpStatus> {
@@ -57,25 +57,6 @@ class ParticipantsService(
         return ResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
-    fun applyEventToken(id: Int, eventToken: String): ResponseEntity<HttpStatus> {
-        try {
-            val claims = jwtProvider.decodeEventToken(eventToken)
-            val event = eventService.findById(claims.body["subject"] as Int) ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
-            when (claims.body["tokenType"]) {
-                EventTokenType.VIEW_ONLY.name -> {
-//                    TODO: add realization
-                }
-                EventTokenType.INVITATION_FROM_PARTICIPANT.name-> {
-//                    TODO: add realization
-                }
-                EventTokenType.INVITATION_FROM_ORGANIZER.name -> {
-//                    TODO: add realization
-                }
-            }
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        } catch (e: Exception) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-    }
+
 
 }
