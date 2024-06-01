@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
-//TODO: add text to ane status code
+//TODO: add text to all status code
 @Service
 class EventsService(
     private val eventService: EventService,

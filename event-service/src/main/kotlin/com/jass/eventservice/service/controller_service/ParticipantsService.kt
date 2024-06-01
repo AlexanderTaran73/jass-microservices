@@ -19,6 +19,10 @@ class ParticipantsService(
     fun participationRequest(id: Int, eventId: Int): ResponseEntity<HttpStatus> {
         if (userService.getUsersShortById(listOf(id)).body!![0] == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
         val event = eventService.findById(eventId)!!.also { event ->
+
+//            If requester is organizer
+            if (event.eventOrganizers.any { it.userId == id }) return ResponseEntity(HttpStatus.BAD_REQUEST)
+
             event.participants.forEach { participant ->
                 if (participant.id == id) return ResponseEntity(HttpStatus.BAD_REQUEST)
             }

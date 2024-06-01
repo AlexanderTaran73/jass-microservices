@@ -13,6 +13,8 @@ class EventResponse(
 
     var name: String? = null
 
+    var userStatus: String? = null
+
     var eventDescription: EventDescription? = null
 
     var eventSettings: EventSettings? = null
@@ -44,14 +46,16 @@ class EventResponse(
         if (eventSettings!!.participantsVisibility!!.name == "VISIBLE") this.participants = event.participants
 
         this.questions = event.questions
-//        TODO: check status
         this.rules = event.rules
+
+        if (event.participants.any { it.userId == requesterId }) userStatus = "PARTICIPANT"
 
         event.eventOrganizers.forEach { organizer ->
             if (organizer.userId == requesterId) {
                 this.possibilityOfEditing = organizer.organizerRights!!.name
                 this.participants = event.participants
                 this.participantsRequests = event.participantsRequests
+                userStatus = "ORGANIZER"
 
             }
         }
