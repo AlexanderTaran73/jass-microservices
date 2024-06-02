@@ -14,4 +14,5 @@ class ImageType {
 //    ProfileAvatar,
 //    EventImage,
 //    EventAvatar
+//    ProfilePostImage
 }

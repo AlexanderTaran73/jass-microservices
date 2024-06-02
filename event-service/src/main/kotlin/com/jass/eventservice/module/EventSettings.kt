@@ -24,7 +24,4 @@ class EventSettings {
     @ManyToOne
     @JoinColumn
     var participantsVisibility: ParticipantsVisibility? = null
-
-//    TODO: event code
-
 }

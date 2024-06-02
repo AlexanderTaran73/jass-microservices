@@ -27,5 +27,8 @@ class Profile {
     @JoinTable
     var friends: MutableSet<Profile> = mutableSetOf()
 
-//    TODO: add posts
+    @OneToMany
+    @JoinColumn
+    var posts: MutableList<Post> = mutableListOf()
+//    TODO: add createdAt and lastUpdatedAt
 }

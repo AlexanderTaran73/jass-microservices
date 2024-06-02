@@ -16,13 +16,14 @@ class DatabaseInitializer(
     override fun run(vararg args: String?) {
 
 //        ImageType
-        if (imageTypeRepository.count() < 4) {
+        if (imageTypeRepository.count() < 5) {
             imageTypeRepository.saveAll(
                 listOf(
                     ImageType().also{it.id = 0; it.name = "ProfileImage"},
                     ImageType().also{it.id = 1; it.name = "ProfileAvatar"},
                     ImageType().also{it.id = 2; it.name = "EventImage"},
-                    ImageType().also{it.id = 3; it.name = "EventAvatar"}
+                    ImageType().also{it.id = 3; it.name = "EventAvatar"},
+                    ImageType().also{it.id = 4; it.name = "ProfilePostImage"}
                 )
             )
         }
